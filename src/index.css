@@ -21,7 +21,8 @@ code {
 :root {
   --bg-color: rgb(60, 57, 53);
   --text-color: rgb(250, 222, 200);
-  --accent-color: #fecc2865;
+  --accent-color: #ffd745;
+  --heading-color: #ffa763;
   --english-word-color: #fe6c28;
   --scrambled-word-color: #f3fe28;
 }
@@ -43,4 +44,14 @@ button {
 
 button:hover {
   background-color: rgba(254, 204, 40, 0.2);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-variant: small-caps;
+  color: var(--heading-color);
 }

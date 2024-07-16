@@ -3,6 +3,14 @@
     border-radius: 5px;
     margin-block: 1em;
     padding: 1em;
+
+    display: flex;
+    gap: 1rem;
+}
+
+.example-wrapper>h2 {
+    padding-right: 1rem;
+    border-right: 3px solid var(--heading-color);
 }
 
 .example {

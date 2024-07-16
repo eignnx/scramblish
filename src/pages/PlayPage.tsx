@@ -89,12 +89,14 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
             {examples.map(({ english, scrambled }, i) => (
                 <div className='example-wrapper' key={i}>
                     <h2>Example {i + 1}</h2>
-                    <p className='example scrambled'>{
-                        splitSentence('scrambled', scrambled.render())
-                    }</p>
-                    <p className='example english'>{
-                        splitSentence('english', english.render())
-                    }</p>
+                    <div>
+                        <p className='example scrambled'>{
+                            splitSentence('scrambled', scrambled.render())
+                        }</p>
+                        <p className='example english'>{
+                            splitSentence('english', english.render())
+                        }</p>
+                    </div>
                 </div>
             ))}
             <button onClick={addAnotherExample}>Add Another Example</button>
