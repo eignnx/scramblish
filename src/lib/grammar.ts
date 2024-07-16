@@ -1,5 +1,5 @@
-import { Random } from './Random.ts';
-import { SyntaxNode, SyntaxLeaf, Syntax } from './syntax-tree.ts';
+import { Random } from './Random';
+import { SyntaxNode, SyntaxLeaf, Syntax } from './syntax-tree';
 
 export class Grammar {
     constructor(

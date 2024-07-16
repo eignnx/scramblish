@@ -7,7 +7,40 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root {
+  --bg-color: rgb(60, 57, 53);
+  --text-color: rgb(250, 222, 200);
+  --accent-color: #fecc2865;
+  --english-word-color: #fe6c28;
+  --scrambled-word-color: #f3fe28;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color)
+}
+
+button {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgba(254, 204, 40, 0.2);
 }

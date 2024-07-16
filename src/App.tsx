@@ -1,25 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MenuPage from './pages/MenuPage';
+import PlayPage from './pages/PlayPage';
+
+export type Lang = 'english' | 'scrambled';
 
 function App() {
+  const [wordNotes, setWordNotes] = React.useState(new Map<string, string>());
+
+  function getWordNote(lang: Lang, word: string): string | null {
+    return wordNotes.get(`${lang}:${word}`) || null;
+  }
+
+  function setWordNote(lang: Lang, word: string, note: string): void {
+    setWordNotes(new Map(wordNotes).set(`${lang}:${word}`, note));
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div id="App">
+        <Routes>
+          <Route path="/" element={<MenuPage />} />
+          <Route path="/play" element={
+            <PlayPage wordNote={getWordNote} setWordNote={setWordNote} />
+          } />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

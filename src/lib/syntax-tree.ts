@@ -1,4 +1,4 @@
-import { Terminal } from './grammar.ts';
+import { Terminal } from './grammar';
 
 export interface Syntax {
     render(): string;

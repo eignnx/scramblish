@@ -1,4 +1,4 @@
-import { Grammar, NT, Ts } from './grammar.ts';
+import { Grammar, NT, Ts } from './grammar';
 
 const NOUN = new Ts(["cat", "dog", "paw", "tail", "ear", "aardvark"]);
 const ADJ = new Ts(["big", "little", "black", "strange", "old"]);

@@ -1,6 +1,6 @@
-import { Form, Grammar } from './grammar.ts';
-import { Random } from './Random.ts';
-import { Syntax, SyntaxLeaf, SyntaxNode } from './syntax-tree.ts';
+import { Form, Grammar } from './grammar';
+import { Random } from './Random';
+import { Syntax, SyntaxLeaf, SyntaxNode } from './syntax-tree';
 
 export class RuleMutation {
     ruleName: string;
@@ -64,7 +64,7 @@ export class GrammarMutation {
     static fromGrammar(grammar: Grammar): GrammarMutation {
         return new GrammarMutation(
             [...grammar.rules.entries()].flatMap(([ruleName, sequences]) => {
-                return sequences.map(([weight, sequence], ruleIndex) => {
+                return sequences.map(([_weight, sequence], ruleIndex) => {
                     return new RuleMutation(ruleName, ruleIndex, sequence.forms);
                 });
             })

@@ -1,0 +1,31 @@
+.example-wrapper {
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    margin-block: 1em;
+    padding: 1em;
+}
+
+.example {
+    font-size: 1.5em;
+    /* disable selecting/highlighting with mouse */
+    user-select: none;
+}
+
+.english {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.80em;
+}
+
+.scrambled {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+}
+
+.word:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.word-selected {
+    font-weight: bolder;
+}
