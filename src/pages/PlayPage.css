@@ -37,3 +37,8 @@
 .word-selected {
     font-weight: bolder;
 }
+
+#play-page-controls {
+    display: flex;
+    gap: 1rem;
+}

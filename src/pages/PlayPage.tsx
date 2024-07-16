@@ -99,15 +99,17 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
                     </div>
                 </div>
             ))}
-            <button onClick={addAnotherExample}>Add Another Example</button>
-            <button onClick={() => {
-                setPuzzleGen(new PuzzleGenerator());
-                setExamples(puzzleGen.generateTranslations());
-                setSelectedWords({
-                    english: {},
-                    scrambled: {},
-                });
-            }}>New Puzzle</button>
+            <nav id="play-page-controls">
+                <button onClick={addAnotherExample}>Add Another Example</button>
+                <button onClick={() => {
+                    setPuzzleGen(new PuzzleGenerator());
+                    setExamples(puzzleGen.generateTranslations());
+                    setSelectedWords({
+                        english: {},
+                        scrambled: {},
+                    });
+                }}>New Puzzle</button>
+            </nav>
         </main>
     );
 }
