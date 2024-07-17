@@ -27,7 +27,7 @@ code {
   --scrambled-word-color: #f3fe28;
 }
 
-body {
+html {
   background-color: var(--bg-color);
   color: var(--text-color)
 }

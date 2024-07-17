@@ -1,9 +1,10 @@
 import React from 'react';
-import { PuzzleGenerator, Question, Translation } from '../lib/puzzle';
 import './PlayPage.css';
 import { Lang } from '../App';
-import { Syntax } from '../lib/syntax-tree';
 import Sentence, { WordOrBlank } from './PlayPage/Sentence';
+import { PuzzleGenerator, Translation } from '../lib/puzzle';
+import { Question } from '../lib/question';
+import { Syntax } from '../lib/syntax-tree';
 
 
 type Props = {
