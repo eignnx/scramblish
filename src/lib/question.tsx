@@ -1,5 +1,5 @@
 import { Lang } from '../App';
-import { SelectedWordState, WordHighlight } from '../pages/PlayPage';
+import { SelectedWordState, WordCounts, WordHighlight } from '../pages/PlayPage';
 import Sentence, { WordOrBlank } from '../pages/PlayPage/Sentence';
 import { Random } from './Random';
 import { Syntax } from './syntax-tree';
@@ -11,11 +11,13 @@ type QuestionRenderProps = {
 
 export interface Question {
     getAnswer(): string;
-    render(props: QuestionRenderProps): JSX.Element;
+    render(props: QuestionRenderProps, key: number): JSX.Element;
+    countWords(wordCounts: WordCounts): void;
 }
 
 abstract class FillInBlank implements Question {
     wordBlankIndex: number = 0;
+    answer: string = '!!!!';
     abstract blankLang: Lang;
 
     constructor(public english: Syntax, public scrambled: Syntax) {
@@ -23,7 +25,9 @@ abstract class FillInBlank implements Question {
     }
 
     init() {
-        this.wordBlankIndex = Random.select(this.blanksLangSentence().render().split(" "));
+        const blanksSentence = this.blanksLangSentence().render().split(" ");
+        this.wordBlankIndex = Random.select(blanksSentence);
+        this.answer = blanksSentence[this.wordBlankIndex];
     }
 
     blanksLangSentence(): Syntax {
@@ -39,19 +43,31 @@ abstract class FillInBlank implements Question {
     }
 
     getAnswer(): string {
-        return this.blanksLangSentence().render().split(" ")[this.wordBlankIndex];
+        return this.answer;
     }
 
-    render({ selectedWords, wordHighlight }: QuestionRenderProps): JSX.Element {
+    countWords(wordCounts: WordCounts): void {
+        this.english.countWords('english', wordCounts);
+        this.scrambled.countWords('scrambled', wordCounts);
+
+        // Don't count the blank word, that would give away answer.
+        if (wordCounts[this.blankLang][this.answer] !== undefined) {
+            wordCounts[this.blankLang][this.answer]--;
+        }
+    }
+
+    render({ selectedWords, wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
         return (
-            <div>
+            <div key={`FillInBlank-div-${key}`}>
                 <Sentence
+                    key={`FillInBlank-scrambled-${key}`}
                     lang='scrambled'
                     words={this.wordsOrBlanks('scrambled', this.scrambled)}
                     selectedWords={selectedWords}
                     wordHighlight={wordHighlight}
                 />
                 <Sentence
+                    key={`FillInBlank-english-${key}`}
                     lang='english'
                     words={this.wordsOrBlanks('english', this.english)}
                     selectedWords={selectedWords}
@@ -72,21 +88,33 @@ export class FillInScrambledBlank extends FillInBlank {
 }
 
 abstract class TranslationQuestion implements Question {
-    abstract questionLang: Lang;
+    /**
+     * The language of the answer sentence.
+     */
+    abstract answerLang: Lang;
 
     constructor(public english: Syntax, public scrambled: Syntax) { }
 
-    questionLangSentence(): Syntax {
-        return this.questionLang === 'english' ? this.english : this.scrambled;
+    answerLangSentence(): Syntax {
+        return this.answerLang === 'english' ? this.english : this.scrambled;
     }
 
     getAnswer(): string {
-        return this.questionLangSentence().render();
+        return this.answerLangSentence().render();
     }
 
-    renderScrambled(selectedWords: SelectedWordState, wordHighlight: WordHighlight): JSX.Element {
-        if (this.questionLang === 'scrambled') {
+    countWords(wordCounts: WordCounts): void {
+        if (this.answerLang !== 'scrambled') {
+            this.scrambled.countWords('scrambled', wordCounts);
+        } else {
+            this.english.countWords('english', wordCounts);
+        }
+    }
+
+    renderScrambled(selectedWords: SelectedWordState, wordHighlight: WordHighlight, key: number): JSX.Element {
+        if (this.answerLang === 'scrambled') {
             return <Sentence
+                key={`TranslationQuestion-Sentence-scrambled-${key}`}
                 lang='scrambled'
                 words={this.scrambled.render().split(" ").map((word) => ({ type: 'word', word }))}
                 selectedWords={selectedWords}
@@ -94,6 +122,7 @@ abstract class TranslationQuestion implements Question {
             />;
         } else {
             return <input
+                key={`TranslationQuestion-input-scrambled-${key}`}
                 type="text"
                 className="scrambled"
                 style={{ width: "100%" }}
@@ -102,9 +131,10 @@ abstract class TranslationQuestion implements Question {
         }
     }
 
-    renderEnglish(selectedWords: SelectedWordState, wordHighlight: WordHighlight): JSX.Element {
-        if (this.questionLang === 'english') {
+    renderEnglish(selectedWords: SelectedWordState, wordHighlight: WordHighlight, key: number): JSX.Element {
+        if (this.answerLang === 'english') {
             return <Sentence
+                key={`TranslationQuestion-Sentence-english-${key}`}
                 lang='english'
                 words={this.english.render().split(" ").map((word) => ({ type: 'word', word }))}
                 selectedWords={selectedWords}
@@ -112,6 +142,7 @@ abstract class TranslationQuestion implements Question {
             />;
         } else {
             return <input
+                key={`TranslationQuestion-input-english-${key}`}
                 type="text"
                 className="english"
                 style={{ width: "100%" }}
@@ -120,20 +151,20 @@ abstract class TranslationQuestion implements Question {
         }
     }
 
-    render({ selectedWords, wordHighlight }: QuestionRenderProps): JSX.Element {
+    render({ selectedWords, wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
         return (
             <div>
-                {this.renderScrambled(selectedWords, wordHighlight)}
-                {this.renderEnglish(selectedWords, wordHighlight)}
+                {this.renderScrambled(selectedWords, wordHighlight, key)}
+                {this.renderEnglish(selectedWords, wordHighlight, key)}
             </div>
         );
     }
 }
 
 export class TranslateEnglishToScrambled extends TranslationQuestion {
-    questionLang: Lang = 'scrambled';
+    answerLang: Lang = 'english';
 }
 
 export class TranslateScrambledToEnglish extends TranslationQuestion {
-    questionLang: Lang = 'english';
+    answerLang: Lang = 'scrambled';
 }

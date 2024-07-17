@@ -53,3 +53,12 @@ input[type="text"] {
     display: flex;
     gap: 1rem;
 }
+
+.word-count {
+    font-size: x-small;
+    position: relative;
+    bottom: -0.65em;
+    padding: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: sans-serif;
+}

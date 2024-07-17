@@ -1,7 +1,10 @@
+import { Lang } from '../App';
+import { WordCounts } from '../pages/PlayPage';
 import { Terminal } from './grammar';
 
 export interface Syntax {
     render(): string;
+    countWords(lang: Lang, wordCounts: WordCounts): void;
 }
 
 export class SyntaxNode implements Syntax {
@@ -14,6 +17,12 @@ export class SyntaxNode implements Syntax {
     render(): string {
         return this.children.map(child => child.render()).join(" ");
     }
+
+    countWords(lang: Lang, wordCounts: WordCounts): void {
+        for (const child of this.children) {
+            child.countWords(lang, wordCounts);
+        }
+    }
 }
 
 export class SyntaxLeaf implements Syntax {
@@ -23,5 +32,12 @@ export class SyntaxLeaf implements Syntax {
 
     render(): string {
         return this.text;
+    }
+
+    countWords(lang: Lang, wordCounts: WordCounts): void {
+        if (wordCounts[lang][this.text] === undefined) {
+            wordCounts[lang][this.text] = 0;
+        }
+        wordCounts[lang][this.text]++;
     }
 }

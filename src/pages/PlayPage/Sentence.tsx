@@ -2,7 +2,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Lang } from '../../App';
-import { SelectedWordState, WordHighlight } from '../PlayPage';
+import { HighlightColor, SelectedWordState, WordCountContext, WordHighlight } from '../PlayPage';
 
 export type WordOrBlank = {
     type: 'word';
@@ -20,14 +20,18 @@ type SentenceProps = {
 };
 
 const Sentence: React.FC<SentenceProps> = ({
-    lang, words, selectedWords, wordHighlight: { setHighlight, clearHighlight }
+    lang, words, selectedWords, wordHighlight: {
+        setHighlight, clearHighlight, clickWord
+    }
 }) => {
     const [blankContent, setBlankContent] = React.useState('');
+    const wordCounts = React.useContext(WordCountContext);
+    const key = words.map((item) => item.type === 'word' ? item.word : '___').join('-');
     return (
-        <p className="sentence">{words.map((item, i) => {
+        <p className="sentence" key={`Sentence-p--${key}`}>{words.map((item, i) => {
             if (item.type === 'blank') {
                 return <input
-                    key={i}
+                    key={`input-blank-${i}`}
                     className={cx({ [lang]: true })}
                     type="text"
                     size={blankContent.length || 10}
@@ -36,30 +40,41 @@ const Sentence: React.FC<SentenceProps> = ({
                 />;
             } else {
                 const { word } = item;
-                return <><span
-                    key={i}
-                    className={cx({
-                        word: true,
-                        [lang]: true,
-                        'word-selected': !!selectedWords[lang][word],
-                    })}
-                    style={
-                        selectedWords[lang][word]
-                            ? { color: chooseColor(lang, selectedWords[lang][word]) }
-                            : {}
-                    }
-                    onMouseEnter={() => setHighlight(lang, word, true)}
-                    onMouseLeave={() => clearHighlight(lang, word)}
-                >{word}</span> </>;
+                return <span key={`word-wrapper-${word}-${i}`}>
+                    <span
+                        key={`word-${word}-${i}`}
+                        className={cx({
+                            word: true,
+                            [lang]: true,
+                            'word-selected': selectedWords[lang][word],
+                        })}
+                        style={
+                            selectedWords[lang][word]
+                                ? { color: chooseColor(lang, selectedWords[lang][word]) }
+                                : {}
+                        }
+                        onMouseEnter={() => setHighlight(lang, word)}
+                        onMouseLeave={() => clearHighlight(lang, word)}
+                        onClick={() => clickWord(lang, word)}
+                    >{word}</span>
+                    <span
+                        key={`wordcount-${word}-${i}`}
+                        className="word-count"
+                        title={`occurrances of '${word}': ${wordCounts[lang][word]}`}
+                    >
+                        {wordCounts[lang][word]}
+                    </span>
+                    {" "}
+                </span>;
             }
-        })}</p>
+        })}</p >
     );
 };
 
-type ColorSeed = number;
 
-function chooseColor(lang: Lang, seed: ColorSeed): string {
-    const SPREAD = 45;
+function chooseColor(lang: Lang, highlightColor: HighlightColor): string {
+    const { seed } = highlightColor;
+    const SPREAD = 55;
     const EN_OFFSET = 0;
     const S = 80;
     const L = 60;
