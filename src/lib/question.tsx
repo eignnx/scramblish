@@ -1,12 +1,12 @@
 import { Lang } from '../App';
-import { SelectedWordState } from '../pages/PlayPage';
+import { SelectedWordState, WordHighlight } from '../pages/PlayPage';
 import Sentence, { WordOrBlank } from '../pages/PlayPage/Sentence';
 import { Random } from './Random';
 import { Syntax } from './syntax-tree';
 
 type QuestionRenderProps = {
     selectedWords: SelectedWordState,
-    clickWord: (lang: Lang, word: string) => void,
+    wordHighlight: WordHighlight;
 };
 
 export interface Question {
@@ -42,20 +42,20 @@ abstract class FillInBlank implements Question {
         return this.blanksLangSentence().render().split(" ")[this.wordBlankIndex];
     }
 
-    render({ selectedWords, clickWord }: QuestionRenderProps): JSX.Element {
+    render({ selectedWords, wordHighlight }: QuestionRenderProps): JSX.Element {
         return (
             <div>
                 <Sentence
                     lang='scrambled'
                     words={this.wordsOrBlanks('scrambled', this.scrambled)}
                     selectedWords={selectedWords}
-                    clickWord={clickWord}
+                    wordHighlight={wordHighlight}
                 />
                 <Sentence
                     lang='english'
                     words={this.wordsOrBlanks('english', this.english)}
                     selectedWords={selectedWords}
-                    clickWord={clickWord}
+                    wordHighlight={wordHighlight}
                 />
             </div>
         );
@@ -84,13 +84,13 @@ abstract class TranslationQuestion implements Question {
         return this.questionLangSentence().render();
     }
 
-    renderScrambled(selectedWords: SelectedWordState, clickWord: (lang: Lang, word: string) => void): JSX.Element {
+    renderScrambled(selectedWords: SelectedWordState, wordHighlight: WordHighlight): JSX.Element {
         if (this.questionLang === 'scrambled') {
             return <Sentence
                 lang='scrambled'
                 words={this.scrambled.render().split(" ").map((word) => ({ type: 'word', word }))}
                 selectedWords={selectedWords}
-                clickWord={clickWord}
+                wordHighlight={wordHighlight}
             />;
         } else {
             return <input
@@ -102,13 +102,13 @@ abstract class TranslationQuestion implements Question {
         }
     }
 
-    renderEnglish(selectedWords: SelectedWordState, clickWord: (lang: Lang, word: string) => void): JSX.Element {
+    renderEnglish(selectedWords: SelectedWordState, wordHighlight: WordHighlight): JSX.Element {
         if (this.questionLang === 'english') {
             return <Sentence
                 lang='english'
                 words={this.english.render().split(" ").map((word) => ({ type: 'word', word }))}
                 selectedWords={selectedWords}
-                clickWord={clickWord}
+                wordHighlight={wordHighlight}
             />;
         } else {
             return <input
@@ -120,11 +120,11 @@ abstract class TranslationQuestion implements Question {
         }
     }
 
-    render({ selectedWords, clickWord }: QuestionRenderProps): JSX.Element {
+    render({ selectedWords, wordHighlight }: QuestionRenderProps): JSX.Element {
         return (
             <div>
-                {this.renderScrambled(selectedWords, clickWord)}
-                {this.renderEnglish(selectedWords, clickWord)}
+                {this.renderScrambled(selectedWords, wordHighlight)}
+                {this.renderEnglish(selectedWords, wordHighlight)}
             </div>
         );
     }

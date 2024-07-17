@@ -2,7 +2,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Lang } from '../../App';
-import { SelectedWordState } from '../PlayPage';
+import { SelectedWordState, WordHighlight } from '../PlayPage';
 
 export type WordOrBlank = {
     type: 'word';
@@ -16,11 +16,11 @@ type SentenceProps = {
     lang: Lang;
     words: WordOrBlank[];
     selectedWords: SelectedWordState;
-    clickWord: (lang: Lang, word: string) => void;
+    wordHighlight: WordHighlight;
 };
 
 const Sentence: React.FC<SentenceProps> = ({
-    lang, words, selectedWords, clickWord
+    lang, words, selectedWords, wordHighlight: { setHighlight, clearHighlight }
 }) => {
     const [blankContent, setBlankContent] = React.useState('');
     return (
@@ -48,7 +48,8 @@ const Sentence: React.FC<SentenceProps> = ({
                             ? { color: chooseColor(lang, selectedWords[lang][word]) }
                             : {}
                     }
-                    onClick={() => clickWord(lang, word)}
+                    onMouseEnter={() => setHighlight(lang, word, true)}
+                    onMouseLeave={() => clearHighlight(lang, word)}
                 >{word}</span> </>;
             }
         })}</p>

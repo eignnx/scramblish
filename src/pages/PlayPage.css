@@ -37,7 +37,6 @@ input[type="text"].scrambled {
 
 .word:hover {
     cursor: pointer;
-    text-decoration: underline;
 }
 
 input[type="text"] {
@@ -46,7 +45,8 @@ input[type="text"] {
 }
 
 .word-selected {
-    font-weight: bolder;
+    text-decoration: underline;
+    border-radius: 2px;
 }
 
 #play-page-controls {

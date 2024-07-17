@@ -12,6 +12,11 @@ type Props = {
     setWordNote: (lang: Lang, word: string, note: string) => void;
 };
 
+export type WordHighlight = {
+    setHighlight: (lang: Lang, word: string, clearOthers: boolean) => void;
+    clearHighlight: (lang: Lang, word: string) => void;
+};
+
 type ColorSeed = number;
 
 export type SelectedWordState = {
@@ -28,24 +33,27 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
         scrambled: {},
     });
 
-    function clickWord(lang: Lang, word: string) {
-        if (!!selectedWords[lang][word]) {
-            // Unset the selected word.
+    const wordHighlight: WordHighlight = {
+        setHighlight(lang: Lang, word: string, clearOthers = false) {
+            if (!selectedWords[lang][word]) {
+                const rest = clearOthers ? {} : selectedWords[lang];
+                setSelectedWords({
+                    ...selectedWords, [lang]: {
+                        ...rest,
+                        [word]: Math.random(),
+                    }
+                });
+            }
+        },
+        clearHighlight(lang: Lang, word: string) {
             setSelectedWords({
                 ...selectedWords, [lang]: {
                     ...selectedWords[lang],
                     [word]: undefined,
                 }
             });
-        } else {
-            setSelectedWords({
-                ...selectedWords, [lang]: {
-                    ...selectedWords[lang],
-                    [word]: Math.random(),
-                }
-            });
         }
-    }
+    };
 
     function addAnotherExample() {
         const newTranslation = puzzleGen.generateTranslation();
@@ -81,7 +89,7 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
                                     lang='scrambled'
                                     words={intoWordsOrBlanks(scrambled)}
                                     selectedWords={selectedWords}
-                                    clickWord={clickWord}
+                                    wordHighlight={wordHighlight}
                                 />
                             </p>
                             <p className='example english'>
@@ -89,7 +97,7 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
                                     lang='english'
                                     words={intoWordsOrBlanks(english)}
                                     selectedWords={selectedWords}
-                                    clickWord={clickWord}
+                                    wordHighlight={wordHighlight}
                                 />
                             </p>
                         </div>
@@ -100,7 +108,7 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
                 {questions.map((question, i) => (
                     <div className="example-wrapper">
                         <h2>Question {i + 1}</h2>
-                        {question.render({ selectedWords, clickWord })}
+                        {question.render({ selectedWords, wordHighlight })}
                     </div>
                 ))}
             </section>
