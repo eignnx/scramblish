@@ -1,9 +1,9 @@
 import React from 'react';
-import { PuzzleGenerator, Translation } from '../lib/puzzle';
+import { PuzzleGenerator, Question, Translation } from '../lib/puzzle';
 import './PlayPage.css';
 import { Lang } from '../App';
-import cx from 'classnames';
 import { Syntax } from '../lib/syntax-tree';
+import Sentence, { WordOrBlank } from './PlayPage/Sentence';
 
 
 type Props = {
@@ -13,68 +13,36 @@ type Props = {
 
 type ColorSeed = number;
 
-type SelectedWordState = {
+export type SelectedWordState = {
     [key in Lang]: { [word: string]: ColorSeed; };
 };
-
-function chooseColor(lang: Lang, seed: ColorSeed): string {
-    const SPREAD = 45;
-    const EN_OFFSET = 0;
-    const S = 80;
-    const L = 60;
-    const SCRAMBLED_OFFSET = 60;
-    switch (lang) {
-        case 'english':
-            return `hsl(${seed * SPREAD + EN_OFFSET}, ${S}%, ${L}%)`;
-        case 'scrambled':
-            return `hsl(${seed * SPREAD + SCRAMBLED_OFFSET}, ${S}%, ${L}%)`;
-    }
-}
 
 export default function PlayPage({ wordNote, setWordNote }: Props) {
     const [puzzleGen, setPuzzleGen] = React.useState(new PuzzleGenerator());
     const [examples, setExamples] = React.useState<Translation<Syntax>[]>(puzzleGen.generateTranslations());
+    const [questions, setQuestions] = React.useState<Question[]>(puzzleGen.generateQuestions());
 
     const [selectedWords, setSelectedWords] = React.useState<SelectedWordState>({
         english: {},
         scrambled: {},
     });
 
-    function splitSentence(lang: Lang, s: string): JSX.Element {
-        const words = s.split(" ");
-        return (
-            <>{words.map((word, i) => (
-                <><span
-                    key={i}
-                    className={cx({
-                        word: true,
-                        'word-selected': !!selectedWords[lang][word],
-                    })}
-                    style={selectedWords[lang][word] ? {
-                        color: chooseColor(lang, selectedWords[lang][word]),
-                    } : {}}
-                    onClick={() => clickWord(word)}
-                >{word}</span>{' '}</>
-            ))}</>
-        );
-
-        function clickWord(word: string) {
-            if (!!selectedWords[lang][word]) {
-                // Unset the selected word.
-                setSelectedWords({
-                    ...selectedWords, [lang]: {
-                        ...selectedWords[lang],
-                        [word]: undefined,
-                    }
-                });
-            } else {
-                setSelectedWords({
-                    ...selectedWords, [lang]: {
-                        ...selectedWords[lang],
-                        [word]: Math.random(),
-                    }
-                });
-            }
+    function clickWord(lang: Lang, word: string) {
+        if (!!selectedWords[lang][word]) {
+            // Unset the selected word.
+            setSelectedWords({
+                ...selectedWords, [lang]: {
+                    ...selectedWords[lang],
+                    [word]: undefined,
+                }
+            });
+        } else {
+            setSelectedWords({
+                ...selectedWords, [lang]: {
+                    ...selectedWords[lang],
+                    [word]: Math.random(),
+                }
+            });
         }
     }
 
@@ -83,22 +51,13 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
         setExamples([...examples, newTranslation]);
     }
 
+    function intoWordsOrBlanks(sentence: Syntax): WordOrBlank[] {
+        return sentence.render().split(" ").map((word) => ({ type: 'word', word }));
+    }
+
     return (
         <main>
             <h1>Play</h1>
-            {examples.map(({ english, scrambled }, i) => (
-                <div className='example-wrapper' key={i}>
-                    <h2>Example {i + 1}</h2>
-                    <div>
-                        <p className='example scrambled'>{
-                            splitSentence('scrambled', scrambled.render())
-                        }</p>
-                        <p className='example english'>{
-                            splitSentence('english', english.render())
-                        }</p>
-                    </div>
-                </div>
-            ))}
             <nav id="play-page-controls">
                 <button onClick={addAnotherExample}>Add Another Example</button>
                 <button onClick={() => {
@@ -110,6 +69,40 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
                     });
                 }}>New Puzzle</button>
             </nav>
+            <section id="section-examples">
+
+                {examples.map(({ english, scrambled }, i) => (
+                    <div className='example-wrapper' key={i}>
+                        <h2>Example {i + 1}</h2>
+                        <div>
+                            <p className='example scrambled'>
+                                <Sentence
+                                    lang='scrambled'
+                                    words={intoWordsOrBlanks(scrambled)}
+                                    selectedWords={selectedWords}
+                                    clickWord={clickWord}
+                                />
+                            </p>
+                            <p className='example english'>
+                                <Sentence
+                                    lang='english'
+                                    words={intoWordsOrBlanks(english)}
+                                    selectedWords={selectedWords}
+                                    clickWord={clickWord}
+                                />
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </section>
+            <section id="section-questions">
+                {questions.map((question, i) => (
+                    <div className="example-wrapper">
+                        <h2>Question {i + 1}</h2>
+                        {question.render({ selectedWords, clickWord })}
+                    </div>
+                ))}
+            </section>
         </main>
     );
 }

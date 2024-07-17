@@ -46,6 +46,16 @@ button:hover {
   background-color: rgba(254, 204, 40, 0.2);
 }
 
+input[type="text"] {
+  font-family: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 5px;
+  padding: 0.25em 0.5em;
+}
+
 h1,
 h2,
 h3,

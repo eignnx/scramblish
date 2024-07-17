@@ -1,7 +1,11 @@
-.example-wrapper {
+#section-examples,
+#section-questions {
     border: 1px solid var(--accent-color);
     border-radius: 5px;
     margin-block: 1em;
+}
+
+.example-wrapper {
     padding: 1em;
 
     display: flex;
@@ -13,25 +17,32 @@
     border-right: 3px solid var(--heading-color);
 }
 
-.example {
-    font-size: 1.5em;
+.sentence {
     /* disable selecting/highlighting with mouse */
     user-select: none;
 }
 
-.english {
+.english,
+input[type="text"].english {
     font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 1.80em;
+    font-size: 1.20rem;
 }
 
-.scrambled {
+.scrambled,
+input[type="text"].scrambled {
     font-family: 'Courier New', Courier, monospace;
     font-weight: bolder;
+    font-size: 1.2rem;
 }
 
 .word:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+input[type="text"] {
+    margin-inline: 0.75ch;
+    text-align: center;
 }
 
 .word-selected {

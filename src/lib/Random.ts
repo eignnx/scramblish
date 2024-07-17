@@ -31,5 +31,9 @@ export const Random = {
             shuffled.push(copy.pop()!);
         }
         return shuffled;
+    },
+
+    int(upperBound: number): number {
+        return Math.floor(Math.random() * upperBound);
     }
 };
