@@ -6,13 +6,7 @@ import { PuzzleGenerator, Translation } from '../lib/puzzle';
 import { Question } from '../lib/question';
 import { Syntax } from '../lib/syntax-tree';
 
-
-type Props = {
-    wordNote: (lang: Lang, word: string) => string | null;
-    setWordNote: (lang: Lang, word: string, note: string) => void;
-};
-
-export type HighlightInteraction = 'select' | 'hover';
+export type HighlightInteraction = 'select' | 'hover' | 'to-be-linked' | 'linked';
 
 export type WordHighlight = {
     setHighlight: (lang: Lang, word: string) => void;
@@ -39,7 +33,7 @@ export const WordCountContext = React.createContext<WordCounts>({
     english: {}, scrambled: {}
 });
 
-export default function PlayPage({ wordNote, setWordNote }: Props) {
+export default function PlayPage() {
     const [puzzleGen, setPuzzleGen] = React.useState(() => new PuzzleGenerator());
     const [examples, setExamples] = React.useState<Translation<Syntax>[]>(puzzleGen.generateTranslations());
     const [questions, setQuestions] = React.useState<Question[]>(puzzleGen.generateQuestions());

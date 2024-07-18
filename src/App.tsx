@@ -7,24 +7,12 @@ import PlayPage from './pages/PlayPage';
 export type Lang = 'english' | 'scrambled';
 
 function App() {
-  const [wordNotes, setWordNotes] = React.useState(new Map<string, string>());
-
-  function getWordNote(lang: Lang, word: string): string | null {
-    return wordNotes.get(`${lang}:${word}`) || null;
-  }
-
-  function setWordNote(lang: Lang, word: string, note: string): void {
-    setWordNotes(new Map(wordNotes).set(`${lang}:${word}`, note));
-  }
-
   return (
     <Router>
       <div id="App">
         <Routes>
           <Route path="/" element={<MenuPage />} />
-          <Route path="/play" element={
-            <PlayPage wordNote={getWordNote} setWordNote={setWordNote} />
-          } />
+          <Route path="/play" element={<PlayPage />} />
         </Routes>
       </div>
     </Router>
