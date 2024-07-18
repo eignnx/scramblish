@@ -1,0 +1,41 @@
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--accent-color);
+}
+
+#new-game-link {
+    font-size: x-large;
+}
+
+#new-game-link::before {
+    content: "🎲 ";
+}
+
+.options-section {
+    width: 100%;
+}
+
+.form-field {
+    font-size: 1.25rem;
+    margin-block: 1rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 1rem;
+}
+
+.form-field>label {
+    grid-column: 1/2;
+}
+
+.form-field>input {
+    grid-column: 2/3;
+}

@@ -46,7 +46,8 @@ button:hover {
   background-color: rgba(254, 204, 40, 0.2);
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="number"] {
   font-family: inherit;
   font-size: inherit;
   background-color: transparent;
