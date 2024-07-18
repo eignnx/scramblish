@@ -40,10 +40,9 @@ const Sentence: React.FC<SentenceProps> = ({
                 />;
             } else {
                 const { word } = item;
-                const wordIsSelected =
-                    !!selectedWords.marked[lang][word]
-                    || selectedWords.hovered?.[0] === lang
-                    && selectedWords.hovered?.[1] === word;
+
+                const wordIsMarked = !!selectedWords.marked[lang][word];
+                const wordIsHovered = selectedWords.hovered?.[0] === lang && selectedWords.hovered?.[1] === word;
 
                 return <span key={`word-wrapper-${word}-${i}`}>
                     <span
@@ -51,10 +50,11 @@ const Sentence: React.FC<SentenceProps> = ({
                         className={cx({
                             word: true,
                             [lang]: true,
-                            'word-selected': wordIsSelected,
+                            'word-marked': wordIsMarked,
+                            'word-hovered': wordIsHovered
                         })}
                         style={
-                            wordIsSelected
+                            wordIsMarked || wordIsHovered
                                 ? { color: chooseColor(lang, word) }
                                 : {}
                         }
