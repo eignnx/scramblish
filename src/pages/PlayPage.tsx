@@ -12,11 +12,11 @@ export type WordHighlight = {
     clickWord: (lang: Lang, word: string) => void;
 };
 
-export type HighlightInteraction = 'select' | 'hover';
+export type HighlightInteraction = 'marked' | 'hovered';
 
 export type SelectedWordState = {
     hovered: [Lang, string] | null;
-    selected: {
+    marked: {
         [key in Lang]: { [word: string]: HighlightInteraction; };
     };
 };
@@ -27,7 +27,7 @@ export type WordCounts = {
 
 export const SelectedWordsContext = React.createContext<SelectedWordState>({
     hovered: null,
-    selected: {
+    marked: {
         english: {}, scrambled: {}
     }
 });
@@ -42,7 +42,7 @@ export default function PlayPage() {
     const [questions, setQuestions] = React.useState<Question[]>(puzzleGen.generateQuestions());
     const [selectedWords, setSelectedWords] = React.useState<SelectedWordState>({
         hovered: null,
-        selected: {
+        marked: {
             english: {}, scrambled: {}
         }
     });
@@ -65,9 +65,9 @@ export default function PlayPage() {
         setHighlight(lang: Lang, word: string) {
             setSelectedWords({
                 hovered: [lang, word],
-                selected: {
-                    english: { ...selectedWords.selected.english },
-                    scrambled: { ...selectedWords.selected.scrambled }
+                marked: {
+                    english: { ...selectedWords.marked.english },
+                    scrambled: { ...selectedWords.marked.scrambled }
                 }
             });
         },
@@ -75,17 +75,16 @@ export default function PlayPage() {
         clickWord(lang: Lang, word: string) {
             const newSelected: SelectedWordState = {
                 hovered: selectedWords.hovered,
-                selected: {
-                    english: { ...selectedWords.selected.english },
-                    scrambled: { ...selectedWords.selected.scrambled }
+                marked: {
+                    english: { ...selectedWords.marked.english },
+                    scrambled: { ...selectedWords.marked.scrambled }
                 }
             };
-            if (newSelected.selected[lang][word] && newSelected.selected[lang][word] === 'select') {
-                delete newSelected.selected[lang][word];
-            } else if (newSelected.selected[lang][word] && newSelected.selected[lang][word] === 'hover') {
-                newSelected.selected[lang][word] = 'select';
+            const selectedLang = newSelected.marked[lang];
+            if (selectedLang[word] && selectedLang[word] === 'marked') {
+                delete selectedLang[word];
             } else {
-                newSelected.selected[lang][word] = 'select';
+                selectedLang[word] = 'marked';
             }
             setSelectedWords(newSelected);
         },
@@ -93,9 +92,9 @@ export default function PlayPage() {
         clearHighlight(lang: Lang, word: string) {
             setSelectedWords({
                 hovered: null,
-                selected: {
-                    english: { ...selectedWords.selected.english },
-                    scrambled: { ...selectedWords.selected.scrambled }
+                marked: {
+                    english: { ...selectedWords.marked.english },
+                    scrambled: { ...selectedWords.marked.scrambled }
                 }
             });
         }
@@ -120,7 +119,7 @@ export default function PlayPage() {
                     setExamples(puzzleGen.generateTranslations());
                     setSelectedWords({
                         hovered: null,
-                        selected: {
+                        marked: {
                             english: {},
                             scrambled: {},
                         }

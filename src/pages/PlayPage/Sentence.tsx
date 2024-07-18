@@ -41,7 +41,7 @@ const Sentence: React.FC<SentenceProps> = ({
             } else {
                 const { word } = item;
                 const wordIsSelected =
-                    !!selectedWords.selected[lang][word]
+                    !!selectedWords.marked[lang][word]
                     || selectedWords.hovered?.[0] === lang
                     && selectedWords.hovered?.[1] === word;
 
