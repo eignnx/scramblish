@@ -1,12 +1,7 @@
-import { ClassExpression } from 'typescript';
-import { Lang } from '../App';
-import { SelectedWordState } from '../pages/PlayPage';
-import Sentence, { WordOrBlank } from '../pages/PlayPage/Sentence';
 import { En } from './en';
 import { GrammarMutation } from './mutation';
 import { Random } from './Random';
-import { Syntax, SyntaxNode } from './syntax-tree';
-import cx from 'classnames';
+import { Syntax } from './syntax-tree';
 import { FillInEnglishBlank, FillInScrambledBlank, Question, TranslateEnglishToScrambled, TranslateScrambledToEnglish } from './question';
 
 export type Translation<T> = {

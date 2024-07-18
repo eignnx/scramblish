@@ -86,6 +86,7 @@ export class GrammarMutation {
         const addV = () => letters.push(Random.choice(vowels));
 
         while (letters.length < length) {
+            if (Math.random() < 0.05) addV();
             if (Math.random() < 1.00) addInitC();
             if (Math.random() < 0.20) addTrailC();
             if (Math.random() < 0.05) addTrailC();

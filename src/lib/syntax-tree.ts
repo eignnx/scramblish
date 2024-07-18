@@ -19,9 +19,15 @@ export class SyntaxNode implements Syntax {
     }
 
     countWords(lang: Lang, wordCounts: WordCounts): void {
-        for (const child of this.children) {
-            child.countWords(lang, wordCounts);
-        }
+        this.render().split(" ").forEach(word => {
+            if (wordCounts[lang][word] === undefined) {
+                wordCounts[lang][word] = 0;
+            }
+            wordCounts[lang][word]++;
+        });
+        // for (const child of this.children) {
+        //     child.countWords(lang, wordCounts);
+        // }
     }
 }
 

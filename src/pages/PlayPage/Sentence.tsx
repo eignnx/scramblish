@@ -1,8 +1,7 @@
-// SentenceComponent.tsx
 import React from 'react';
 import cx from 'classnames';
 import { Lang } from '../../App';
-import { HighlightColor, SelectedWordState, WordCountContext, WordHighlight } from '../PlayPage';
+import { HighlightColor, SelectedWordState, WordCounts, WordHighlight } from '../PlayPage';
 
 export type WordOrBlank = {
     type: 'word';
@@ -17,15 +16,16 @@ type SentenceProps = {
     words: WordOrBlank[];
     selectedWords: SelectedWordState;
     wordHighlight: WordHighlight;
+    wordCounts: WordCounts;
 };
 
 const Sentence: React.FC<SentenceProps> = ({
-    lang, words, selectedWords, wordHighlight: {
+    lang, words, selectedWords, wordCounts, wordHighlight: {
         setHighlight, clearHighlight, clickWord
     }
 }) => {
     const [blankContent, setBlankContent] = React.useState('');
-    const wordCounts = React.useContext(WordCountContext);
+    console.log('wordCounts in Sentence', wordCounts);
     const key = words.map((item) => item.type === 'word' ? item.word : '___').join('-');
     return (
         <p className="sentence" key={`Sentence-p--${key}`}>{words.map((item, i) => {
@@ -46,7 +46,7 @@ const Sentence: React.FC<SentenceProps> = ({
                         className={cx({
                             word: true,
                             [lang]: true,
-                            'word-selected': selectedWords[lang][word],
+                            'word-selected': !!selectedWords[lang][word],
                         })}
                         style={
                             selectedWords[lang][word]
@@ -62,7 +62,7 @@ const Sentence: React.FC<SentenceProps> = ({
                         className="word-count"
                         title={`occurrances of '${word}': ${wordCounts[lang][word]}`}
                     >
-                        {wordCounts[lang][word]}
+                        {wordCounts[lang][word] ?? 'undefined'}
                     </span>
                     {" "}
                 </span>;

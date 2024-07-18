@@ -35,12 +35,12 @@ export type WordCounts = {
     [key in Lang]: { [word: string]: number; };
 };
 
-export const WordCountContext = React.createContext<WordCounts>({
-    english: {}, scrambled: {}
-});
+// export const WordCountContext = React.createContext<WordCounts>({
+//     english: {}, scrambled: {}
+// });
 
 export default function PlayPage({ wordNote, setWordNote }: Props) {
-    const [puzzleGen, setPuzzleGen] = React.useState(new PuzzleGenerator());
+    const [puzzleGen, setPuzzleGen] = React.useState(() => new PuzzleGenerator());
     const [examples, setExamples] = React.useState<Translation<Syntax>[]>(puzzleGen.generateTranslations());
     const [questions, setQuestions] = React.useState<Question[]>(puzzleGen.generateQuestions());
     const [selectedWords, setSelectedWords] = React.useState<SelectedWordState>({
@@ -53,15 +53,21 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
         scrambled: {},
     };
 
+    console.log('wordCounts after initialization', wordCounts);
+
     {
+        console.log('examples', examples);
         for (const { english, scrambled } of examples) {
             english.countWords('english', wordCounts);
             scrambled.countWords('scrambled', wordCounts);
         }
+        console.log('wordCounts after counts from examples:', wordCounts);
 
+        console.log('questions', questions);
         for (const question of questions) {
             question.countWords(wordCounts);
         }
+        console.log('wordCounts after counts from questions:', wordCounts);
     }
 
     const wordHighlight: WordHighlight = {
@@ -117,6 +123,7 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
         return sentence.render().split(" ").map((word) => ({ type: 'word', word }));
     }
 
+    console.log('wordCounts right before render:', wordCounts);
 
     return (
         <main>
@@ -132,44 +139,45 @@ export default function PlayPage({ wordNote, setWordNote }: Props) {
                     });
                 }}>New Puzzle</button>
             </nav>
-            <WordCountContext.Provider value={wordCounts}>
-                <section id="section-examples">
-
-                    {examples.map(({ english, scrambled }, i) => (
-                        <div className='example-wrapper' key={`examples-div-${i}`}>
-                            <h2>Example {i + 1}</h2>
-                            <div>
-                                <span className='example scrambled'>
-                                    <Sentence
-                                        key={`Sentence-scrambled-${i}`}
-                                        lang='scrambled'
-                                        words={intoWordsOrBlanks(scrambled)}
-                                        selectedWords={selectedWords}
-                                        wordHighlight={wordHighlight}
-                                    />
-                                </span>
-                                <span className='example english'>
-                                    <Sentence
-                                        key={`Sentence-english-${i}`}
-                                        lang='english'
-                                        words={intoWordsOrBlanks(english)}
-                                        selectedWords={selectedWords}
-                                        wordHighlight={wordHighlight}
-                                    />
-                                </span>
-                            </div>
+            {/* <WordCountContext.Provider value={wordCounts}> */}
+            <section id="section-examples">
+                {examples.map(({ english, scrambled }, i) => (
+                    <div className='example-wrapper' key={`examples-div-${i}`}>
+                        <h2>Example {i + 1}</h2>
+                        <div>
+                            <span className='example scrambled'>
+                                <Sentence
+                                    key={`Sentence-scrambled-${i}`}
+                                    lang='scrambled'
+                                    words={intoWordsOrBlanks(scrambled)}
+                                    selectedWords={selectedWords}
+                                    wordHighlight={wordHighlight}
+                                    wordCounts={wordCounts}
+                                />
+                            </span>
+                            <span className='example english'>
+                                <Sentence
+                                    key={`Sentence-english-${i}`}
+                                    lang='english'
+                                    words={intoWordsOrBlanks(english)}
+                                    selectedWords={selectedWords}
+                                    wordHighlight={wordHighlight}
+                                    wordCounts={wordCounts}
+                                />
+                            </span>
                         </div>
-                    ))}
-                </section>
-                <section id="section-questions">
-                    {questions.map((question, i) => (
-                        <div className="example-wrapper" key={`questions-div-${i}`}>
-                            <h2>Question {i + 1}</h2>
-                            {question.render({ selectedWords, wordHighlight }, i)}
-                        </div>
-                    ))}
-                </section>
-            </WordCountContext.Provider>
+                    </div>
+                ))}
+            </section>
+            <section id="section-questions">
+                {questions.map((question, i) => (
+                    <div className="example-wrapper" key={`questions-div-${i}`}>
+                        <h2>Question {i + 1}</h2>
+                        {question.render({ selectedWords, wordHighlight, wordCounts }, i)}
+                    </div>
+                ))}
+            </section>
+            {/* </WordCountContext.Provider> */}
         </main>
     );
 };
