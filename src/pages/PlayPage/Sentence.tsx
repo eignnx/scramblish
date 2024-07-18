@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Lang } from '../../App';
-import { WordCountContext, HighlightColor, SelectedWordState, WordCounts, WordHighlight } from '../PlayPage';
+import { WordCountContext, HighlightColor, SelectedWordState, WordCounts, WordHighlight, SelectedWordsContext } from '../PlayPage';
 
 export type WordOrBlank = {
     type: 'word';
@@ -14,17 +14,17 @@ export type WordOrBlank = {
 type SentenceProps = {
     lang: Lang;
     words: WordOrBlank[];
-    selectedWords: SelectedWordState;
     wordHighlight: WordHighlight;
 };
 
 const Sentence: React.FC<SentenceProps> = ({
-    lang, words, selectedWords, wordHighlight: {
+    lang, words, wordHighlight: {
         setHighlight, clearHighlight, clickWord
     }
 }) => {
     const [blankContent, setBlankContent] = React.useState('');
     const wordCounts = React.useContext(WordCountContext);
+    const selectedWords = React.useContext(SelectedWordsContext);
 
     const key = words.map((item) => item.type === 'word' ? item.word : '___').join('-');
     return (

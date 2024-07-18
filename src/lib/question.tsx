@@ -5,7 +5,6 @@ import { Random } from './Random';
 import { Syntax } from './syntax-tree';
 
 type QuestionRenderProps = {
-    selectedWords: SelectedWordState,
     wordHighlight: WordHighlight;
 };
 
@@ -56,21 +55,19 @@ abstract class FillInBlank implements Question {
         }
     }
 
-    render({ selectedWords, wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
+    render({ wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
         return (
             <div key={`FillInBlank-div-${key}`}>
                 <Sentence
                     key={`FillInBlank-scrambled-${key}`}
                     lang='scrambled'
                     words={this.wordsOrBlanks('scrambled', this.scrambled)}
-                    selectedWords={selectedWords}
                     wordHighlight={wordHighlight}
                 />
                 <Sentence
                     key={`FillInBlank-english-${key}`}
                     lang='english'
                     words={this.wordsOrBlanks('english', this.english)}
-                    selectedWords={selectedWords}
                     wordHighlight={wordHighlight}
                 />
             </div>
@@ -114,13 +111,12 @@ abstract class TranslationQuestion implements Question {
         }
     }
 
-    renderScrambled({ selectedWords, wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
+    renderScrambled({ wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
         if (this.answerLang === 'english') {
             return <Sentence
                 key={`TranslationQuestion-Sentence-scrambled-${key}`}
                 lang='scrambled'
                 words={this.scrambled.render().split(" ").map((word) => ({ type: 'word', word }))}
-                selectedWords={selectedWords}
                 wordHighlight={wordHighlight}
             />;
         } else {
@@ -134,13 +130,12 @@ abstract class TranslationQuestion implements Question {
         }
     }
 
-    renderEnglish({ selectedWords, wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
+    renderEnglish({ wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
         if (this.answerLang === 'scrambled') {
             return <Sentence
                 key={`TranslationQuestion-Sentence-english-${key}`}
                 lang='english'
                 words={this.english.render().split(" ").map((word) => ({ type: 'word', word }))}
-                selectedWords={selectedWords}
                 wordHighlight={wordHighlight}
             />;
         } else {

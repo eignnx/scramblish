@@ -29,6 +29,10 @@ export type WordCounts = {
     [key in Lang]: { [word: string]: number; };
 };
 
+export const SelectedWordsContext = React.createContext<SelectedWordState>({
+    english: {}, scrambled: {}
+});
+
 export const WordCountContext = React.createContext<WordCounts>({
     english: {}, scrambled: {}
 });
@@ -124,41 +128,41 @@ export default function PlayPage() {
                 }}>New Puzzle</button>
             </nav>
             <WordCountContext.Provider value={wordCounts}>
-                <section id="section-examples">
-                    {examples.map(({ english, scrambled }, i) => (
-                        <div className='example-wrapper' key={`examples-div-${i}`}>
-                            <h2>Example {i + 1}</h2>
-                            <div>
-                                <span className='example scrambled'>
-                                    <Sentence
-                                        key={`Sentence-scrambled-${i}`}
-                                        lang='scrambled'
-                                        words={intoWordsOrBlanks(scrambled)}
-                                        selectedWords={selectedWords}
-                                        wordHighlight={wordHighlight}
-                                    />
-                                </span>
-                                <span className='example english'>
-                                    <Sentence
-                                        key={`Sentence-english-${i}`}
-                                        lang='english'
-                                        words={intoWordsOrBlanks(english)}
-                                        selectedWords={selectedWords}
-                                        wordHighlight={wordHighlight}
-                                    />
-                                </span>
+                <SelectedWordsContext.Provider value={selectedWords}>
+                    <section id="section-examples">
+                        {examples.map(({ english, scrambled }, i) => (
+                            <div className='example-wrapper' key={`examples-div-${i}`}>
+                                <h2>Example {i + 1}</h2>
+                                <div>
+                                    <span className='example scrambled'>
+                                        <Sentence
+                                            key={`Sentence-scrambled-${i}`}
+                                            lang='scrambled'
+                                            words={intoWordsOrBlanks(scrambled)}
+                                            wordHighlight={wordHighlight}
+                                        />
+                                    </span>
+                                    <span className='example english'>
+                                        <Sentence
+                                            key={`Sentence-english-${i}`}
+                                            lang='english'
+                                            words={intoWordsOrBlanks(english)}
+                                            wordHighlight={wordHighlight}
+                                        />
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </section>
-                <section id="section-questions">
-                    {questions.map((question, i) => (
-                        <div className="example-wrapper" key={`questions-div-${i}`}>
-                            <h2>Question {i + 1}</h2>
-                            {question.render({ selectedWords, wordHighlight }, i)}
-                        </div>
-                    ))}
-                </section>
+                        ))}
+                    </section>
+                    <section id="section-questions">
+                        {questions.map((question, i) => (
+                            <div className="example-wrapper" key={`questions-div-${i}`}>
+                                <h2>Question {i + 1}</h2>
+                                {question.render({ wordHighlight }, i)}
+                            </div>
+                        ))}
+                    </section>
+                </SelectedWordsContext.Provider>
             </WordCountContext.Provider>
         </main>
     );
