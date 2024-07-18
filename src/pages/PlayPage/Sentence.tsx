@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Lang } from '../../App';
-import { HighlightColor, SelectedWordState, WordCounts, WordHighlight } from '../PlayPage';
+import { WordCountContext, HighlightColor, SelectedWordState, WordCounts, WordHighlight } from '../PlayPage';
 
 export type WordOrBlank = {
     type: 'word';
@@ -16,16 +16,16 @@ type SentenceProps = {
     words: WordOrBlank[];
     selectedWords: SelectedWordState;
     wordHighlight: WordHighlight;
-    wordCounts: WordCounts;
 };
 
 const Sentence: React.FC<SentenceProps> = ({
-    lang, words, selectedWords, wordCounts, wordHighlight: {
+    lang, words, selectedWords, wordHighlight: {
         setHighlight, clearHighlight, clickWord
     }
 }) => {
     const [blankContent, setBlankContent] = React.useState('');
-    console.log('wordCounts in Sentence', wordCounts);
+    const wordCounts = React.useContext(WordCountContext);
+
     const key = words.map((item) => item.type === 'word' ? item.word : '___').join('-');
     return (
         <p className="sentence" key={`Sentence-p--${key}`}>{words.map((item, i) => {

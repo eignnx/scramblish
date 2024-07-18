@@ -7,7 +7,6 @@ import { Syntax } from './syntax-tree';
 type QuestionRenderProps = {
     selectedWords: SelectedWordState,
     wordHighlight: WordHighlight;
-    wordCounts: WordCounts;
 };
 
 export interface Question {
@@ -48,21 +47,8 @@ abstract class FillInBlank implements Question {
     }
 
     countWords(wordCounts: WordCounts): void {
-        // this.english.countWords('english', wordCounts);
-        // this.scrambled.countWords('scrambled', wordCounts);
-
-        this.english.render().split(" ").forEach(word => {
-            if (wordCounts['english'][word] === undefined) {
-                wordCounts['english'][word] = 0;
-            }
-            wordCounts['english'][word]++;
-        });
-        this.scrambled.render().split(" ").forEach(word => {
-            if (wordCounts['scrambled'][word] === undefined) {
-                wordCounts['scrambled'][word] = 0;
-            }
-            wordCounts['scrambled'][word]++;
-        });
+        this.english.countWords('english', wordCounts);
+        this.scrambled.countWords('scrambled', wordCounts);
 
         // Don't count the blank word, that would give away answer.
         if (wordCounts[this.blankLang][this.answer] !== undefined) {
@@ -70,7 +56,7 @@ abstract class FillInBlank implements Question {
         }
     }
 
-    render({ selectedWords, wordHighlight, wordCounts }: QuestionRenderProps, key: number): JSX.Element {
+    render({ selectedWords, wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
         return (
             <div key={`FillInBlank-div-${key}`}>
                 <Sentence
@@ -79,7 +65,6 @@ abstract class FillInBlank implements Question {
                     words={this.wordsOrBlanks('scrambled', this.scrambled)}
                     selectedWords={selectedWords}
                     wordHighlight={wordHighlight}
-                    wordCounts={wordCounts}
                 />
                 <Sentence
                     key={`FillInBlank-english-${key}`}
@@ -87,7 +72,6 @@ abstract class FillInBlank implements Question {
                     words={this.wordsOrBlanks('english', this.english)}
                     selectedWords={selectedWords}
                     wordHighlight={wordHighlight}
-                    wordCounts={wordCounts}
                 />
             </div>
         );
@@ -121,16 +105,16 @@ abstract class TranslationQuestion implements Question {
 
     countWords(wordCounts: WordCounts): void {
         switch (this.answerLang) {
-            case 'english':
-                this.english.countWords('scrambled', wordCounts);
-                break;
             case 'scrambled':
-                this.scrambled.countWords('english', wordCounts);
+                this.english.countWords('english', wordCounts);
+                break;
+            case 'english':
+                this.scrambled.countWords('scrambled', wordCounts);
                 break;
         }
     }
 
-    renderScrambled({ selectedWords, wordHighlight, wordCounts }: QuestionRenderProps, key: number): JSX.Element {
+    renderScrambled({ selectedWords, wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
         if (this.answerLang === 'english') {
             return <Sentence
                 key={`TranslationQuestion-Sentence-scrambled-${key}`}
@@ -138,7 +122,6 @@ abstract class TranslationQuestion implements Question {
                 words={this.scrambled.render().split(" ").map((word) => ({ type: 'word', word }))}
                 selectedWords={selectedWords}
                 wordHighlight={wordHighlight}
-                wordCounts={wordCounts}
             />;
         } else {
             return <input
@@ -151,7 +134,7 @@ abstract class TranslationQuestion implements Question {
         }
     }
 
-    renderEnglish({ selectedWords, wordHighlight, wordCounts }: QuestionRenderProps, key: number): JSX.Element {
+    renderEnglish({ selectedWords, wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
         if (this.answerLang === 'scrambled') {
             return <Sentence
                 key={`TranslationQuestion-Sentence-english-${key}`}
@@ -159,7 +142,6 @@ abstract class TranslationQuestion implements Question {
                 words={this.english.render().split(" ").map((word) => ({ type: 'word', word }))}
                 selectedWords={selectedWords}
                 wordHighlight={wordHighlight}
-                wordCounts={wordCounts}
             />;
         } else {
             return <input
