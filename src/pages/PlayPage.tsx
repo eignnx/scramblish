@@ -6,7 +6,7 @@ import { PuzzleGenerator, Translation } from '../lib/puzzle';
 import { Question } from '../lib/question';
 import { Syntax } from '../lib/syntax-tree';
 
-export type HighlightInteraction = 'select' | 'hover' | 'to-be-linked' | 'linked';
+export type HighlightInteraction = 'select' | 'hover';
 
 export type WordHighlight = {
     setHighlight: (lang: Lang, word: string) => void;
