@@ -22,7 +22,10 @@ export class HighlightColor {
 }
 
 export type SelectedWordState = {
-    [key in Lang]: { [word: string]: HighlightColor; };
+    hovered: [Lang, string] | null;
+    selected: {
+        [key in Lang]: { [word: string]: HighlightColor; };
+    };
 };
 
 export type WordCounts = {
@@ -30,7 +33,10 @@ export type WordCounts = {
 };
 
 export const SelectedWordsContext = React.createContext<SelectedWordState>({
-    english: {}, scrambled: {}
+    hovered: null,
+    selected: {
+        english: {}, scrambled: {}
+    }
 });
 
 export const WordCountContext = React.createContext<WordCounts>({
@@ -42,8 +48,10 @@ export default function PlayPage() {
     const [examples, setExamples] = React.useState<Translation<Syntax>[]>(puzzleGen.generateTranslations());
     const [questions, setQuestions] = React.useState<Question[]>(puzzleGen.generateQuestions());
     const [selectedWords, setSelectedWords] = React.useState<SelectedWordState>({
-        english: {},
-        scrambled: {},
+        hovered: null,
+        selected: {
+            english: {}, scrambled: {}
+        }
     });
 
     const wordCounts: WordCounts = {
@@ -62,45 +70,41 @@ export default function PlayPage() {
 
     const wordHighlight: WordHighlight = {
         setHighlight(lang: Lang, word: string) {
-            const newSelected: SelectedWordState = {
-                english: selectedWords['english'],
-                scrambled: selectedWords['scrambled']
-            };
-            for (const w in newSelected[lang]) {
-                if (newSelected[lang][w] && newSelected[lang][w].reason === 'hover') {
-                    delete newSelected[lang][w];
+            setSelectedWords({
+                hovered: [lang, word],
+                selected: {
+                    english: { ...selectedWords.selected.english },
+                    scrambled: { ...selectedWords.selected.scrambled }
                 }
-            }
-            if (!newSelected[lang][word]) newSelected[lang][word] = new HighlightColor('hover');
-            setSelectedWords(newSelected);
+            });
         },
 
         clickWord(lang: Lang, word: string) {
             const newSelected: SelectedWordState = {
-                english: selectedWords['english'],
-                scrambled: selectedWords['scrambled']
+                hovered: selectedWords.hovered,
+                selected: {
+                    english: { ...selectedWords.selected.english },
+                    scrambled: { ...selectedWords.selected.scrambled }
+                }
             };
-            if (newSelected[lang][word] && newSelected[lang][word].reason === 'select') {
-                delete newSelected[lang][word];
-            } else if (newSelected[lang][word] && newSelected[lang][word].reason === 'hover') {
-                newSelected[lang][word].reason = 'select';
+            if (newSelected.selected[lang][word] && newSelected.selected[lang][word].reason === 'select') {
+                delete newSelected.selected[lang][word];
+            } else if (newSelected.selected[lang][word] && newSelected.selected[lang][word].reason === 'hover') {
+                newSelected.selected[lang][word].reason = 'select';
             } else {
-                newSelected[lang][word] = new HighlightColor('select');
+                newSelected.selected[lang][word] = new HighlightColor('select');
             }
             setSelectedWords(newSelected);
         },
 
         clearHighlight(lang: Lang, word: string) {
-            const newSelected: SelectedWordState = {
-                english: selectedWords['english'],
-                scrambled: selectedWords['scrambled']
-            };
-            for (const w in newSelected[lang]) {
-                if (newSelected[lang][w] && newSelected[lang][w].reason === 'hover') {
-                    delete newSelected[lang][w];
+            setSelectedWords({
+                hovered: null,
+                selected: {
+                    english: { ...selectedWords.selected.english },
+                    scrambled: { ...selectedWords.selected.scrambled }
                 }
-            }
-            setSelectedWords(newSelected);
+            });
         }
     };
 
@@ -122,8 +126,11 @@ export default function PlayPage() {
                     setPuzzleGen(new PuzzleGenerator());
                     setExamples(puzzleGen.generateTranslations());
                     setSelectedWords({
-                        english: {},
-                        scrambled: {},
+                        hovered: null,
+                        selected: {
+                            english: {},
+                            scrambled: {},
+                        }
                     });
                 }}>New Puzzle</button>
             </nav>

@@ -40,17 +40,22 @@ const Sentence: React.FC<SentenceProps> = ({
                 />;
             } else {
                 const { word } = item;
+                const wordIsSelected =
+                    !!selectedWords.selected[lang][word]
+                    || selectedWords.hovered?.[0] === lang
+                    && selectedWords.hovered?.[1] === word;
+
                 return <span key={`word-wrapper-${word}-${i}`}>
                     <span
                         key={`word-${word}-${i}`}
                         className={cx({
                             word: true,
                             [lang]: true,
-                            'word-selected': !!selectedWords[lang][word],
+                            'word-selected': wordIsSelected,
                         })}
                         style={
-                            selectedWords[lang][word]
-                                ? { color: chooseColor(lang, selectedWords[lang][word]) }
+                            wordIsSelected
+                                ? { color: chooseColor(lang, word) }
                                 : {}
                         }
                         onMouseEnter={() => setHighlight(lang, word)}
@@ -71,9 +76,19 @@ const Sentence: React.FC<SentenceProps> = ({
     );
 };
 
+// good enough.
+function hashWord(lang: Lang, word: string): number {
+    const MODULUS = 10000;
+    const OFFSET = (1 << 16) - 1;
+    const FACTOR = (1 << 12) - 1;
+    const langOffset = lang === 'english' ? 2 / 4 * MODULUS : 3 / 4 * MODULUS;
+    return word.split('').reduce((acc, char) => {
+        return (FACTOR * (acc + char.charCodeAt(0)) + OFFSET) % MODULUS;
+    }, langOffset) / MODULUS;
+}
 
-function chooseColor(lang: Lang, highlightColor: HighlightColor): string {
-    const { seed } = highlightColor;
+function chooseColor(lang: Lang, word: string): string {
+    const seed = hashWord(lang, word);
     const SPREAD = 55;
     const EN_OFFSET = 0;
     const S = 80;
