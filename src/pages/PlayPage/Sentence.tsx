@@ -32,9 +32,9 @@ const Sentence: React.FC<SentenceProps> = ({
             if (item.type === 'blank') {
                 return <input
                     key={`input-blank-${i}`}
-                    className={cx({ [lang]: true })}
+                    className={cx({ [lang]: true, blank: true })}
                     type="text"
-                    size={blankContent.length || 10}
+                    size={blankContent.length || (lang === 'english' ? 10 : 18)}
                     placeholder={lang === 'english' ? 'English word...' : 'Scrambled word...'}
                     onChange={(e) => setBlankContent(e.target.value)}
                 />;
