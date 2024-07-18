@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Lang } from '../../App';
-import { WordCountContext, HighlightColor, SelectedWordState, WordCounts, WordHighlight, SelectedWordsContext } from '../PlayPage';
+import { WordCountContext, WordHighlight, SelectedWordsContext } from '../PlayPage';
 
 export type WordOrBlank = {
     type: 'word';

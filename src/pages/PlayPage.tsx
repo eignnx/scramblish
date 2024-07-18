@@ -6,25 +6,18 @@ import { PuzzleGenerator, Translation } from '../lib/puzzle';
 import { Question } from '../lib/question';
 import { Syntax } from '../lib/syntax-tree';
 
-export type HighlightInteraction = 'select' | 'hover';
-
 export type WordHighlight = {
     setHighlight: (lang: Lang, word: string) => void;
     clearHighlight: (lang: Lang, word: string) => void;
     clickWord: (lang: Lang, word: string) => void;
 };
 
-export class HighlightColor {
-    seed: number;
-    constructor(public reason: HighlightInteraction) {
-        this.seed = Math.random();
-    }
-}
+export type HighlightInteraction = 'select' | 'hover';
 
 export type SelectedWordState = {
     hovered: [Lang, string] | null;
     selected: {
-        [key in Lang]: { [word: string]: HighlightColor; };
+        [key in Lang]: { [word: string]: HighlightInteraction; };
     };
 };
 
@@ -87,12 +80,12 @@ export default function PlayPage() {
                     scrambled: { ...selectedWords.selected.scrambled }
                 }
             };
-            if (newSelected.selected[lang][word] && newSelected.selected[lang][word].reason === 'select') {
+            if (newSelected.selected[lang][word] && newSelected.selected[lang][word] === 'select') {
                 delete newSelected.selected[lang][word];
-            } else if (newSelected.selected[lang][word] && newSelected.selected[lang][word].reason === 'hover') {
-                newSelected.selected[lang][word].reason = 'select';
+            } else if (newSelected.selected[lang][word] && newSelected.selected[lang][word] === 'hover') {
+                newSelected.selected[lang][word] = 'select';
             } else {
-                newSelected.selected[lang][word] = new HighlightColor('select');
+                newSelected.selected[lang][word] = 'select';
             }
             setSelectedWords(newSelected);
         },
