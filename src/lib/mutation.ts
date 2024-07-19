@@ -46,11 +46,11 @@ export class RuleMutation {
 
 export class TokenMutation {
     original: string;
-    scrambled: string;
+    scramblish: string;
 
     constructor(original: string) {
         this.original = original;
-        this.scrambled = Random.shuffled(original.split("")).join("");
+        this.scramblish = Random.shuffled(original.split("")).join("");
     }
 }
 

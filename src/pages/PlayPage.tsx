@@ -28,12 +28,12 @@ export type WordCounts = {
 export const SelectedWordsContext = React.createContext<SelectedWordState>({
     hovered: null,
     marked: {
-        english: {}, scrambled: {}
+        english: {}, scramblish: {}
     }
 });
 
 export const WordCountContext = React.createContext<WordCounts>({
-    english: {}, scrambled: {}
+    english: {}, scramblish: {}
 });
 
 export default function PlayPage() {
@@ -43,18 +43,18 @@ export default function PlayPage() {
     const [selectedWords, setSelectedWords] = React.useState<SelectedWordState>({
         hovered: null,
         marked: {
-            english: {}, scrambled: {}
+            english: {}, scramblish: {}
         }
     });
 
     const wordCounts: WordCounts = {
         english: {},
-        scrambled: {},
+        scramblish: {},
     };
 
-    for (const { english, scrambled } of examples) {
+    for (const { english, scramblish } of examples) {
         english.countWords('english', wordCounts);
-        scrambled.countWords('scrambled', wordCounts);
+        scramblish.countWords('scramblish', wordCounts);
     }
 
     for (const question of questions) {
@@ -67,7 +67,7 @@ export default function PlayPage() {
                 hovered: [lang, word],
                 marked: {
                     english: { ...selectedWords.marked.english },
-                    scrambled: { ...selectedWords.marked.scrambled }
+                    scramblish: { ...selectedWords.marked.scramblish }
                 }
             });
         },
@@ -77,7 +77,7 @@ export default function PlayPage() {
                 hovered: selectedWords.hovered,
                 marked: {
                     english: { ...selectedWords.marked.english },
-                    scrambled: { ...selectedWords.marked.scrambled }
+                    scramblish: { ...selectedWords.marked.scramblish },
                 }
             };
             const selectedLang = newSelected.marked[lang];
@@ -94,7 +94,7 @@ export default function PlayPage() {
                 hovered: null,
                 marked: {
                     english: { ...selectedWords.marked.english },
-                    scrambled: { ...selectedWords.marked.scrambled }
+                    scramblish: { ...selectedWords.marked.scramblish }
                 }
             });
         }
@@ -121,7 +121,7 @@ export default function PlayPage() {
                         hovered: null,
                         marked: {
                             english: {},
-                            scrambled: {},
+                            scramblish: {},
                         }
                     });
                 }}>New Puzzle</button>
@@ -129,15 +129,15 @@ export default function PlayPage() {
             <WordCountContext.Provider value={wordCounts}>
                 <SelectedWordsContext.Provider value={selectedWords}>
                     <section id="section-examples">
-                        {examples.map(({ english, scrambled }, i) => (
+                        {examples.map(({ english, scramblish }, i) => (
                             <div className='example-wrapper' key={`examples-div-${i}`}>
                                 <h2>Example {i + 1}</h2>
                                 <div>
-                                    <span className='example scrambled'>
+                                    <span className='example scramblish'>
                                         <Sentence
-                                            key={`Sentence-scrambled-${i}`}
-                                            lang='scrambled'
-                                            words={intoWordsOrBlanks(scrambled)}
+                                            key={`Sentence-scramblish-${i}`}
+                                            lang='scramblish'
+                                            words={intoWordsOrBlanks(scramblish)}
                                             wordHighlight={wordHighlight}
                                         />
                                     </span>

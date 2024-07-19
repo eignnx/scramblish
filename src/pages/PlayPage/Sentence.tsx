@@ -32,7 +32,7 @@ const Sentence: React.FC<SentenceProps> = ({ lang, words, wordHighlight }) => {
                     className={cx({ [lang]: true, blank: true })}
                     type="text"
                     size={blankContent.length || (lang === 'english' ? 10 : 18)}
-                    placeholder={lang === 'english' ? 'English word...' : 'Scrambled word...'}
+                    placeholder={lang === 'english' ? 'English word...' : 'Scramblish word...'}
                     onChange={(e) => setBlankContent(e.target.value)}
                 />;
             } else {

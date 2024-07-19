@@ -2,11 +2,11 @@ import { En } from './en';
 import { GrammarMutation } from './mutation';
 import { Random } from './Random';
 import { Syntax } from './syntax-tree';
-import { FillInEnglishBlank, FillInScrambledBlank, Question, TranslateEnglishToScrambled, TranslateScrambledToEnglish } from './question';
+import { FillInEnglishBlank, FillInScramblishBlank, Question, TranslateEnglishToScramblish, TranslateScramblishToEnglish } from './question';
 
 export type Translation<T> = {
     english: T;
-    scrambled: T;
+    scramblish: T;
 };
 
 export class PuzzleGenerator {
@@ -38,8 +38,8 @@ export class PuzzleGenerator {
 
     generateTranslation(): Translation<Syntax> {
         const english = this.generateSentence();
-        const scrambled = this.scrambleSentence(english);
-        return { english, scrambled };
+        const scramblish = this.scrambleSentence(english);
+        return { english, scramblish: scramblish };
     }
 
     generateTranslations(): Translation<Syntax>[] {
@@ -47,16 +47,16 @@ export class PuzzleGenerator {
     }
 
     generateQuestion(): Question {
-        type QuestionConstructor = new (english: Syntax, scrambled: Syntax) => Question;
+        type QuestionConstructor = new (english: Syntax, scramblish: Syntax) => Question;
         const questionChoices: [number, QuestionConstructor][] = [
             [5, FillInEnglishBlank],
-            [4, FillInScrambledBlank],
-            [2, TranslateScrambledToEnglish],
-            [1, TranslateEnglishToScrambled],
+            [4, FillInScramblishBlank],
+            [2, TranslateScramblishToEnglish],
+            [1, TranslateEnglishToScramblish],
         ];
         const [_, qClass] = Random.weightedChoice(questionChoices);
-        const { english, scrambled } = this.generateTranslation();
-        return new qClass(english, scrambled);
+        const { english, scramblish } = this.generateTranslation();
+        return new qClass(english, scramblish);
     }
 
     generateQuestions(): Question[] {

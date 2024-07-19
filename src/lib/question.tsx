@@ -19,7 +19,7 @@ abstract class FillInBlank implements Question {
     answer: string = '!!!!';
     abstract blankLang: Lang;
 
-    constructor(public english: Syntax, public scrambled: Syntax) {
+    constructor(public english: Syntax, public scramblish: Syntax) {
         this.init();
     }
 
@@ -30,7 +30,7 @@ abstract class FillInBlank implements Question {
     }
 
     blanksLangSentence(): Syntax {
-        return this.blankLang === 'english' ? this.english : this.scrambled;
+        return this.blankLang === 'english' ? this.english : this.scramblish;
     }
 
     wordsOrBlanks(lang: Lang, sentence: Syntax): WordOrBlank[] {
@@ -47,7 +47,7 @@ abstract class FillInBlank implements Question {
 
     countWords(wordCounts: WordCounts): void {
         this.english.countWords('english', wordCounts);
-        this.scrambled.countWords('scrambled', wordCounts);
+        this.scramblish.countWords('scramblish', wordCounts);
 
         // Don't count the blank word, that would give away answer.
         if (wordCounts[this.blankLang][this.answer] !== undefined) {
@@ -59,9 +59,9 @@ abstract class FillInBlank implements Question {
         return (
             <div key={`FillInBlank-div-${key}`}>
                 <Sentence
-                    key={`FillInBlank-scrambled-${key}`}
-                    lang='scrambled'
-                    words={this.wordsOrBlanks('scrambled', this.scrambled)}
+                    key={`FillInBlank-scramblish-${key}`}
+                    lang='scramblish'
+                    words={this.wordsOrBlanks('scramblish', this.scramblish)}
                     wordHighlight={wordHighlight}
                 />
                 <Sentence
@@ -80,8 +80,8 @@ export class FillInEnglishBlank extends FillInBlank {
 
 }
 
-export class FillInScrambledBlank extends FillInBlank {
-    blankLang: Lang = 'scrambled';
+export class FillInScramblishBlank extends FillInBlank {
+    blankLang: Lang = 'scramblish';
 }
 
 abstract class TranslationQuestion implements Question {
@@ -90,10 +90,10 @@ abstract class TranslationQuestion implements Question {
      */
     abstract answerLang: Lang;
 
-    constructor(public english: Syntax, public scrambled: Syntax) { }
+    constructor(public english: Syntax, public scramblish: Syntax) { }
 
     answerLangSentence(): Syntax {
-        return this.answerLang === 'english' ? this.english : this.scrambled;
+        return this.answerLang === 'english' ? this.english : this.scramblish;
     }
 
     getAnswer(): string {
@@ -102,36 +102,36 @@ abstract class TranslationQuestion implements Question {
 
     countWords(wordCounts: WordCounts): void {
         switch (this.answerLang) {
-            case 'scrambled':
+            case 'scramblish':
                 this.english.countWords('english', wordCounts);
                 break;
             case 'english':
-                this.scrambled.countWords('scrambled', wordCounts);
+                this.scramblish.countWords('scramblish', wordCounts);
                 break;
         }
     }
 
-    renderScrambled({ wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
+    renderScramblish({ wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
         if (this.answerLang === 'english') {
             return <Sentence
-                key={`TranslationQuestion-Sentence-scrambled-${key}`}
-                lang='scrambled'
-                words={this.scrambled.render().split(" ").map((word) => ({ type: 'word', word }))}
+                key={`TranslationQuestion-Sentence-scramblish-${key}`}
+                lang='scramblish'
+                words={this.scramblish.render().split(" ").map((word) => ({ type: 'word', word }))}
                 wordHighlight={wordHighlight}
             />;
         } else {
             return <input
-                key={`TranslationQuestion-input-scrambled-${key}`}
+                key={`TranslationQuestion-input-scramblish-${key}`}
                 type="text"
-                className="scrambled"
+                className="scramblish"
                 style={{ width: "100%" }}
-                placeholder="Scrambled sentence..."
+                placeholder="Scramblish sentence..."
             />;
         }
     }
 
     renderEnglish({ wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
-        if (this.answerLang === 'scrambled') {
+        if (this.answerLang === 'scramblish') {
             return <Sentence
                 key={`TranslationQuestion-Sentence-english-${key}`}
                 lang='english'
@@ -152,17 +152,17 @@ abstract class TranslationQuestion implements Question {
     render(props: QuestionRenderProps, key: number): JSX.Element {
         return (
             <div>
-                {this.renderScrambled(props, key)}
+                {this.renderScramblish(props, key)}
                 {this.renderEnglish(props, key)}
             </div>
         );
     }
 }
 
-export class TranslateEnglishToScrambled extends TranslationQuestion {
-    answerLang: Lang = 'scrambled';
+export class TranslateEnglishToScramblish extends TranslationQuestion {
+    answerLang: Lang = 'scramblish';
 }
 
-export class TranslateScrambledToEnglish extends TranslationQuestion {
+export class TranslateScramblishToEnglish extends TranslationQuestion {
     answerLang: Lang = 'english';
 }

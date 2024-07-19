@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MenuPage from './pages/MenuPage';
 import PlayPage from './pages/PlayPage';
 
-export type Lang = 'english' | 'scrambled';
+export type Lang = 'english' | 'scramblish';
 
 function App() {
   return (

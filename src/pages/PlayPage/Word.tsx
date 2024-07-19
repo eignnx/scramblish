@@ -67,11 +67,11 @@ function chooseColor(lang: Lang, word: string): string {
     const EN_OFFSET = 0;
     const S = 80;
     const L = 60;
-    const SCRAMBLED_OFFSET = 60;
+    const SCRAMBLISH_OFFSET = 60;
     switch (lang) {
         case 'english':
             return `hsl(${seed * SPREAD + EN_OFFSET}, ${S}%, ${L}%)`;
-        case 'scrambled':
-            return `hsl(${seed * SPREAD + SCRAMBLED_OFFSET}, ${S}%, ${L}%)`;
+        case 'scramblish':
+            return `hsl(${seed * SPREAD + SCRAMBLISH_OFFSET}, ${S}%, ${L}%)`;
     }
 }
