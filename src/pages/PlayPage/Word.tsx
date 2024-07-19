@@ -64,10 +64,10 @@ function hashWord(lang: Lang, word: string): number {
 function chooseColor(lang: Lang, word: string): string {
     const seed = hashWord(lang, word);
     const SPREAD = 55;
-    const EN_OFFSET = 0;
-    const S = 80;
-    const L = 60;
-    const SCRAMBLISH_OFFSET = 60;
+    const S = 85;
+    const L = 50;
+    const EN_OFFSET = -10;
+    const SCRAMBLISH_OFFSET = 50;
     switch (lang) {
         case 'english':
             return `hsl(${seed * SPREAD + EN_OFFSET}, ${S}%, ${L}%)`;
