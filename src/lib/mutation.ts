@@ -1,4 +1,5 @@
 import { Form, Grammar } from './grammar';
+import { LatinOrthography, Orthography } from './orthography';
 import { Random } from './Random';
 import { Syntax, SyntaxLeaf, SyntaxNode } from './syntax-tree';
 
@@ -58,45 +59,23 @@ export class GrammarMutation {
     tokenMutations: Map<string, string> = new Map();
 
     constructor(
-        public rules: RuleMutation[]
+        public rules: RuleMutation[],
+        public orthography: Orthography,
     ) { }
 
-    static fromGrammar(grammar: Grammar): GrammarMutation {
+    static fromGrammar(grammar: Grammar, ortho: Orthography): GrammarMutation {
         return new GrammarMutation(
             [...grammar.rules.entries()].flatMap(([ruleName, sequences]) => {
                 return sequences.map(([_weight, sequence], ruleIndex) => {
                     return new RuleMutation(ruleName, ruleIndex, sequence.forms);
                 });
-            })
+            }),
+            ortho,
         );
     }
 
     randomWord(): string {
-        const initialConsonants = "bcdfghjklmnpqrstvwxyz".split("");
-        const trailingConsonants = "bcgklprstyz".split("");
-        const vowels = "aeiou".split("");
-
-        const r = Math.random();
-        const length = 1 + Math.floor(r * r * 6);
-
-        let letters: string[] = [];
-
-        const addInitC = () => letters.push(Random.choice(initialConsonants));
-        const addTrailC = () => letters.push(Random.choice(trailingConsonants));
-        const addV = () => letters.push(Random.choice(vowels));
-
-        while (letters.length < length) {
-            if (Math.random() < 0.05) addV();
-            if (Math.random() < 1.00) addInitC();
-            if (Math.random() < 0.20) addTrailC();
-            if (Math.random() < 0.05) addTrailC();
-            if (Math.random() < 1.00) addV();
-            if (Math.random() < 0.20) addV();
-            if (Math.random() < 0.10) addV();
-        }
-        if (Math.random() < 0.333) addInitC();
-
-        return letters.join("");
+        return this.orthography.generateWord();
     }
 
     applyToSyntax(syntax: Syntax): Syntax {
@@ -128,6 +107,6 @@ export class GrammarMutation {
     }
 
     inverse(): GrammarMutation {
-        return new GrammarMutation(this.rules.map(rule => rule.inverse()));
+        return new GrammarMutation(this.rules.map(rule => rule.inverse()), this.orthography);
     }
 }

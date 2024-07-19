@@ -5,6 +5,8 @@ import Sentence, { WordOrBlank } from './PlayPage/Sentence';
 import { PuzzleGenerator, Translation } from '../lib/puzzle';
 import { Question } from '../lib/question';
 import { Syntax } from '../lib/syntax-tree';
+import { orthographies } from '../lib/orthography';
+import { Random } from '../lib/Random';
 
 export type WordHighlight = {
     setHighlight: (lang: Lang, word: string) => void;
@@ -40,7 +42,8 @@ export const WordCountContext = React.createContext<WordCounts>({
 });
 
 export default function PlayPage() {
-    const [puzzleGen, setPuzzleGen] = React.useState(() => new PuzzleGenerator());
+    const [ortho, setOrtho] = React.useState(() => Random.choice(orthographies));
+    const [puzzleGen, setPuzzleGen] = React.useState(() => new PuzzleGenerator(ortho));
     const [examples, setExamples] = React.useState<Translation<Syntax>[]>(puzzleGen.generateTranslations());
     const [questions, setQuestions] = React.useState<Question[]>(puzzleGen.generateQuestions());
     const [selectedWords, setSelectedWords] = React.useState<SelectedWordState>({
@@ -149,7 +152,8 @@ export default function PlayPage() {
             <nav id="play-page-controls">
                 <button onClick={addAnotherExample}>Add Another Example</button>
                 <button onClick={() => {
-                    setPuzzleGen(new PuzzleGenerator());
+                    setOrtho(Random.choice(orthographies));
+                    // setPuzzleGen(new PuzzleGenerator());
                     setExamples(puzzleGen.generateTranslations());
                     setSelectedWords({
                         hovered: null,

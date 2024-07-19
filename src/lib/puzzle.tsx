@@ -3,6 +3,7 @@ import { GrammarMutation } from './mutation';
 import { Random } from './Random';
 import { Syntax } from './syntax-tree';
 import { FillInEnglishBlank, FillInScramblishBlank, Question, TranslateEnglishToScramblish, TranslateScramblishToEnglish } from './question';
+import { Orthography } from './orthography';
 
 export type Translation<T> = {
     english: T;
@@ -15,8 +16,8 @@ export class PuzzleGenerator {
     maxLength: number = 12;
     M: GrammarMutation;
 
-    constructor() {
-        this.M = GrammarMutation.fromGrammar(En);
+    constructor(ortho: Orthography) {
+        this.M = GrammarMutation.fromGrammar(En, ortho);
     }
 
     generateSentence(): Syntax {
@@ -29,7 +30,7 @@ export class PuzzleGenerator {
     }
 
     reset() {
-        this.M = GrammarMutation.fromGrammar(En);
+        this.M = GrammarMutation.fromGrammar(En, this.M.orthography);
     }
 
     scrambleSentence(s: Syntax): Syntax {
