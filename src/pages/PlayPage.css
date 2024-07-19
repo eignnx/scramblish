@@ -49,12 +49,16 @@ input[type="text"].blank {
 .word-hovered {
     text-decoration: underline;
     text-decoration-style: dotted;
-    border-radius: 2px;
 }
 
 .word-marked {
     text-decoration: underline;
-    border-radius: 2px;
+}
+
+.word-to-be-linked {
+    color: hsl(214, 100%, 76%);
+    text-decoration: underline;
+    text-decoration-style: double;
 }
 
 #play-page-controls {

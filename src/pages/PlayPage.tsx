@@ -10,9 +10,12 @@ export type WordHighlight = {
     setHighlight: (lang: Lang, word: string) => void;
     clearHighlight: (lang: Lang, word: string) => void;
     clickWord: (lang: Lang, word: string) => void;
+    linkWord: (lang: Lang, word: string) => void;
 };
 
-export type HighlightInteraction = 'marked' | { linkedTo: string; };
+export type HighlightInteraction = 'marked' | { linkedTo: string | null; };
+
+export type LangWord = `${Lang}:${string}`; // e.g. 'english:aardvaark' or 'scramblish:blarg'
 
 export type SelectedWordState = {
     hovered: [Lang, string] | null;
@@ -97,7 +100,37 @@ export default function PlayPage() {
                     scramblish: { ...selectedWords.marked.scramblish }
                 }
             });
-        }
+        },
+
+        linkWord(lang: Lang, word: string) {
+            const newSelected: SelectedWordState = {
+                hovered: selectedWords.hovered,
+                marked: {
+                    english: { ...selectedWords.marked.english },
+                    scramblish: { ...selectedWords.marked.scramblish },
+                }
+            };
+
+            const selectedLang = newSelected.marked[lang];
+            const otherLang = newSelected.marked[lang === 'english' ? 'scramblish' : 'english'];
+
+            const otherLinkWord = Object.keys(otherLang).find(w => {
+                const thing = otherLang[w];
+                return thing instanceof Object && thing.linkedTo === null;
+            });
+
+            if (otherLinkWord) {
+                otherLang[otherLinkWord] = { linkedTo: word };
+                selectedLang[word] = { linkedTo: otherLinkWord };
+            } else {
+                // First word in link-selected
+                selectedLang[word] = { linkedTo: null };
+            }
+
+            console.log(word, selectedLang[word], otherLinkWord);
+
+            setSelectedWords(newSelected);
+        },
     };
 
     function addAnotherExample() {
