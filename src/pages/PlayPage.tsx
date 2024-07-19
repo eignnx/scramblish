@@ -84,9 +84,10 @@ export default function PlayPage() {
                 }
             };
             const selectedLang = newSelected.marked[lang];
-            if (selectedLang[word] && selectedLang[word] === 'marked') {
+            const highlightInteraction = selectedLang[word];
+            if (highlightInteraction === 'marked') {
                 delete selectedLang[word];
-            } else {
+            } else if (highlightInteraction === undefined) {
                 selectedLang[word] = 'marked';
             }
             setSelectedWords(newSelected);
