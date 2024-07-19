@@ -12,7 +12,7 @@ export type WordHighlight = {
     clickWord: (lang: Lang, word: string) => void;
 };
 
-export type HighlightInteraction = 'marked' | 'hovered';
+export type HighlightInteraction = 'marked' | { linkedTo: string; };
 
 export type SelectedWordState = {
     hovered: [Lang, string] | null;
