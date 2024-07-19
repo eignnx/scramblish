@@ -86,15 +86,15 @@ function chooseColor(lang: Lang, word: string, linkedWord: string | null | undef
     const L = 50;
     const EN_OFFSET = -10;
     const SCRAMBLISH_OFFSET = 50;
-    const LINKED_OFFSET = 270;
+    const LINKED_OFFSET = 200;
 
     if (linkedWord === undefined) {
         const seed = hashWord(`${lang}:${word}`);
         switch (lang) {
             case 'english':
-                return `hsl(${seed * SPREAD + EN_OFFSET}, ${S}%, ${L}%)`;
+                return `hsl(${seed * SPREAD + EN_OFFSET}, ${0.8 * S}%, ${1.2 * L}%)`;
             case 'scramblish':
-                return `hsl(${seed * SPREAD + SCRAMBLISH_OFFSET}, ${S}%, ${L}%)`;
+                return `hsl(${seed * SPREAD + SCRAMBLISH_OFFSET}, ${0.8 * S}%, ${1.3 * L}%)`;
         }
     } else if (linkedWord === null) {
         const seed = hashWord(`${lang}:${word}`);
@@ -102,6 +102,6 @@ function chooseColor(lang: Lang, word: string, linkedWord: string | null | undef
     } else {
         const words = [word, linkedWord].sort().join('<=>');
         const seed = hashWord(words);
-        return `hsl(${seed * 3 * SPREAD + LINKED_OFFSET}, ${S}%, ${L}%)`;
+        return `hsl(${seed * 3 * SPREAD + LINKED_OFFSET}, ${S / 2}%, ${1.5 * L}%)`;
     }
 }
