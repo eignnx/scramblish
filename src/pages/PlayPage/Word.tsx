@@ -16,7 +16,6 @@ export default function Word({
     }, wordCounts,
 }: WordProps) {
     const selectedWords = React.useContext(SelectedWordsContext);
-    const i = 0;
     const wordIsMarked = !!selectedWords.marked[lang][word];
     const wordIsHovered = (
         selectedWords.hovered?.[0] === lang &&
