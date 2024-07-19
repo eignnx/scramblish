@@ -13,7 +13,8 @@
 }
 
 .example-wrapper>h2 {
-    padding-right: 1rem;
+    padding-right: 1.5rem;
+    margin-right: 0.75rem;
     border-right: 3px solid var(--heading-color);
 }
 
@@ -59,6 +60,21 @@ input[type="text"].blank {
     color: hsl(214, 100%, 76%);
     text-decoration: underline;
     text-decoration-style: double;
+}
+
+.word-linked {
+    position: relative;
+    display: inline-block;
+}
+
+.linked-word-note {
+    font-size: x-small;
+    font-family: monospace;
+    font-weight: bolder;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #play-page-controls {

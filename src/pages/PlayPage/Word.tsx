@@ -45,7 +45,12 @@ export default function Word({
             onMouseEnter={() => setHighlight(lang, word)}
             onMouseLeave={() => clearHighlight(lang, word)}
             onClick={e => handleClick(e, lang, word)}
-        >{word}</span>
+        >{word}
+            {wordIsLinked && <span
+                className="linked-word-note"
+                style={{ color: chooseColor(lang, word, linkedWord) }}
+            >[{linkedWord}]</span>}
+        </span>
         <span
             className="word-count"
             title={`occurrances of '${word}': ${wordCounts[lang][word]}`}
