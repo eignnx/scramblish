@@ -64,7 +64,7 @@ export default function Word({
     </span>;
 
     function handleClick(e: React.MouseEvent, lang: Lang, word: string) {
-        if (e.shiftKey) {
+        if (e.ctrlKey) {
             console.log('shift-click');
             linkWord(lang, word);
         } else {
