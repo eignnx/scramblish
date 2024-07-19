@@ -18,7 +18,8 @@
     border-right: 3px solid var(--heading-color);
 }
 
-.word-count {
+.word-count,
+.sentence {
     /* disable selecting/highlighting with mouse */
     user-select: none;
 }
