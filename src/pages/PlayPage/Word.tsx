@@ -23,9 +23,8 @@ export default function Word({
         selectedWords.hovered?.[1] === word
     );
 
-    return <span key={`word-wrapper-${word}-${i}`}>
+    return <span>
         <span
-            key={`word-${word}-${i}`}
             className={cx({
                 word: true,
                 [lang]: true,
@@ -42,7 +41,6 @@ export default function Word({
             onClick={() => clickWord(lang, word)}
         >{word}</span>
         <span
-            key={`wordcount-${word}-${i}`}
             className="word-count"
             title={`occurrances of '${word}': ${wordCounts[lang][word]}`}
         >
