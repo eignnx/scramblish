@@ -27,7 +27,10 @@ export default function Word({
         selectedWords.hovered?.[1] === word
     );
 
-    return <span>
+    return <span className={cx({
+        "word-wrapper": true,
+        "word-wrapper-linked": wordIsLinked,
+    })}>
         <span
             className={cx({
                 word: true,

@@ -6,7 +6,8 @@
 }
 
 .example-wrapper {
-    padding: 1em;
+    padding-inline-start: 1em;
+    padding-block: 1em;
 
     display: flex;
     gap: 1rem;
@@ -18,10 +19,12 @@
     border-right: 3px solid var(--heading-color);
 }
 
-.word-count,
 .sentence {
     /* disable selecting/highlighting with mouse */
     user-select: none;
+
+    margin: 0;
+    line-height: 4em;
 }
 
 .english,
@@ -69,13 +72,36 @@ input[type="text"].blank {
 }
 
 .linked-word-note {
-    font-size: x-small;
+    font-size: xx-small;
     font-family: monospace;
     font-weight: bolder;
     position: absolute;
-    bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.word-wrapper:nth-child(odd of .word-wrapper-linked) .linked-word-note {
+    top: 40%;
+}
+
+.word-wrapper:nth-child(even of .word-wrapper-linked) .linked-word-note {
+    bottom: 35%;
+}
+
+.linked-word-note::before {
+    content: "⋮";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    --shift: -1.15em;
+}
+
+.word-wrapper:nth-child(even of .word-wrapper-linked) .linked-word-note::before {
+    bottom: var(--shift);
+}
+
+.word-wrapper:nth-child(odd of .word-wrapper-linked) .linked-word-note::before {
+    top: var(--shift);
 }
 
 #play-page-controls {
