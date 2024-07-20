@@ -117,3 +117,9 @@ input[type="text"].blank {
     color: rgba(255, 212, 84, 0.5);
     font-family: sans-serif;
 }
+
+span.hapax-legomenon {
+    text-decoration-style: wavy;
+    text-decoration-thickness: 2%;
+    text-decoration-color: orange;
+}

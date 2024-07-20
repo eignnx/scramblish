@@ -27,6 +27,11 @@ export default function Word({
         selectedWords.hovered?.[1] === word
     );
 
+    const occurrances = wordCounts[lang][word];
+    const titleForWord = (occurrances === 1)
+        ? `1 occurrance of ${word}`
+        : `${occurrances} occurrances of ${word}`;
+
     return <span className={cx({
         "word-wrapper": true,
         "word-wrapper-linked": wordIsLinked,
@@ -39,12 +44,14 @@ export default function Word({
                 'word-marked': wordIsMarked && !wordIsLinked,
                 'word-linked': wordIsLinked,
                 'word-to-be-linked': wordToBeLinked,
+                'hapax-legomenon': occurrances === 1,
             })}
             style={
                 wordIsMarked || wordIsHovered || wordIsLinked || wordToBeLinked
                     ? { color: chooseColor(lang, word, linkedWord) }
                     : {}
             }
+            title={occurrances === 1 ? "Only 1 occurrance of this word in corpus" : undefined}
             onMouseEnter={() => setHighlight(lang, word)}
             onMouseLeave={() => clearHighlight(lang, word)}
             onClick={e => handleClick(e, lang, word)}
@@ -56,9 +63,9 @@ export default function Word({
         </span>
         <span
             className="word-count"
-            title={`${wordCounts[lang][word]} occurrance${wordCounts[lang][word] > 1 ? "s" : ""} of ${word}`}
+            title={titleForWord}
         >
-            {wordCounts[lang][word] ?? 'undefined'}
+            {occurrances}
         </span>
         {" "}
     </span>;
