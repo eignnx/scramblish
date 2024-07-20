@@ -56,7 +56,7 @@ export default function Word({
         </span>
         <span
             className="word-count"
-            title={`occurrances of '${word}': ${wordCounts[lang][word]}`}
+            title={`${wordCounts[lang][word]} occurrance${wordCounts[lang][word] > 1 ? "s" : ""} of ${word}`}
         >
             {wordCounts[lang][word] ?? 'undefined'}
         </span>
