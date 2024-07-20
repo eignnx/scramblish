@@ -52,7 +52,7 @@ export default function Word({
             {wordIsLinked && <span
                 className="linked-word-note"
                 style={{ color: chooseColor(lang, word, linkedWord) }}
-            >[{linkedWord}]</span>}
+            >({linkedWord})</span>}
         </span>
         <span
             className="word-count"
