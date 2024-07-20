@@ -36,9 +36,16 @@ input[type="text"].english {
 
 .scramblish,
 input[type="text"].scramblish {
-    font-family: "Patua One", serif;
+    /* font-family: "Patua One", serif;
     font-weight: 400;
+    font-style: normal; */
+
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    /* 100-900 */
+    font-weight: 600;
     font-style: normal;
+
 
     font-size: 1.2rem;
 }
