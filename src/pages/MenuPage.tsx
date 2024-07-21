@@ -28,7 +28,10 @@ export default function MenuPage({ puzzleParams, setPuzzleParams }: Props) {
                                         <input type="checkbox" name={ortho.name} id={`checkbox-${ortho.name}`} />
                                     </div>
                                     <div>
-                                        <label htmlFor={`checkbox-${ortho.name}`}>{ortho.name}</label>
+                                        <div>
+                                            <label htmlFor={`checkbox-${ortho.name}`}>{ortho.name}</label>
+                                            <span className="ortho-sample">{ortho.sample}</span>
+                                        </div>
                                         <p className="script-note">{ortho.note}</p>
                                     </div>
                                 </div>

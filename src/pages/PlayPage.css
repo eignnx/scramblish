@@ -20,8 +20,6 @@
 }
 
 .sentence {
-    /* disable selecting/highlighting with mouse */
-    user-select: none;
 
     margin: 0;
     line-height: 4em;
@@ -86,6 +84,9 @@ input[type="text"].blank {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+
+    /* disable selecting/highlighting with mouse */
+    user-select: none;
 }
 
 .word-wrapper:nth-child(odd of .word-wrapper-linked) .linked-word-note {
@@ -102,6 +103,8 @@ input[type="text"].blank {
     left: 50%;
     transform: translateX(-50%);
     --shift: -1.15em;
+    /* disable selecting/highlighting with mouse */
+    user-select: none;
 }
 
 .word-wrapper:nth-child(even of .word-wrapper-linked) .linked-word-note::before {
@@ -124,6 +127,8 @@ input[type="text"].blank {
     padding: 0.05ch;
     color: rgba(255, 212, 84, 0.5);
     font-family: sans-serif;
+    /* disable selecting/highlighting with mouse */
+    user-select: none;
 }
 
 span.hapax-legomenon {

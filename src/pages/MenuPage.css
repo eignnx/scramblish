@@ -81,3 +81,10 @@ ul.option-fields {
     padding-right: 1rem;
     border-right: 2px solid var(--heading-color); */
 }
+
+.ortho-sample {
+    font-size: small;
+    font-family: Helvetica, Arial, san-serif;
+    color: var(--accent-color);
+    margin-inline-start: 1rem;
+}
