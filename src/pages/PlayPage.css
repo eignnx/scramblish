@@ -40,12 +40,13 @@ input[type="text"].scramblish {
     font-weight: 400;
     font-style: normal; */
 
-    font-family: "Roboto Slab", serif;
-    font-optical-sizing: auto;
+    /* font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto; */
     /* 100-900 */
-    font-weight: 500;
-    font-style: normal;
+    /* font-weight: 500;
+    font-style: normal;  */
 
+    font-family: Helvetica, Arial, sans-serif;
 
     font-size: 1.2rem;
 }
