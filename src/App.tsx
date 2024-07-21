@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import MenuPage from './pages/MenuPage';
 import PlayPage from './pages/PlayPage';
 import { orthographies, Orthography } from './lib/orthography';
@@ -20,9 +20,13 @@ function App() {
     new Set<Orthography>(orthographies),
   ));
 
+
   return (
-    <Router>
-      <div id="App">
+    <div id="App">
+      <Router>
+        <nav>
+          <NavLink to="/">Scramblish</NavLink>
+        </nav>
         <Routes>
           <Route path="/" element={
             <MenuPage
@@ -34,8 +38,8 @@ function App() {
             <PlayPage puzzleParams={puzzleParams} />
           } />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 }
 

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { PuzzleParams } from '../App';
 import { orthographies } from '../lib/orthography';
 import "./MenuPage.css";
@@ -36,7 +37,7 @@ export default function MenuPage({ puzzleParams, setPuzzleParams }: Props) {
                     </li>
                 </ul>
             </section>
-            <a href="/play" id="new-game-link">Start New Game</a>
+            <Link to="/play" id="new-game-link">Start New Game</Link>
         </main>
     );
 }

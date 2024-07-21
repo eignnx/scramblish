@@ -150,24 +150,26 @@ export default function PlayPage({ puzzleParams }: Props) {
         return sentence.render().split(" ").map((word) => ({ type: 'word', word }));
     }
 
+    function regeneratePuzzle() {
+        setOrtho(Random.choice(orthographies));
+        // setPuzzleGen(new PuzzleGenerator());
+        setExamples(puzzleGen.generateTranslations());
+        setSelectedWords({
+            hovered: null,
+            marked: {
+                english: {},
+                scramblish: {},
+            }
+        });
+    }
+
     return (
         <main>
             <h1>Play</h1>
-            <nav id="play-page-controls">
+            <section id="play-page-controls">
                 <button onClick={addAnotherExample}>Add Another Example</button>
-                <button onClick={() => {
-                    setOrtho(Random.choice(orthographies));
-                    // setPuzzleGen(new PuzzleGenerator());
-                    setExamples(puzzleGen.generateTranslations());
-                    setSelectedWords({
-                        hovered: null,
-                        marked: {
-                            english: {},
-                            scramblish: {},
-                        }
-                    });
-                }}>New Puzzle</button>
-            </nav>
+                <button onClick={regeneratePuzzle}>Regenerate Puzzle</button>
+            </section>
             <WordCountContext.Provider value={wordCounts}>
                 <SelectedWordsContext.Provider value={selectedWords}>
                     <section id="section-examples">
