@@ -100,7 +100,7 @@ export class GreekOrthography extends ConsonantVowelOrthography {
     name = "Greek";
     note = "The greek letters used in ancient times and today.";
     maxSegments = 10;
-    consonants = `β γ δ ζ θ κ λ μ ν ξ π ρ σ τ φ χ ψ`.split(" ");
+    consonants = `β γ δ ζ θ κ λ μ ν ξ π ρ σ τ φ χ ψ ϝ ϙ ͳ`.split(" ");
     followingConsonants = `γ δ θ κ λ μ ν ξ π ρ σ τ φ`.split(" ");
     ;
     vowels = "α ε η ι ο υ ω".split(" ");
