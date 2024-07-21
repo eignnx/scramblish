@@ -2,6 +2,7 @@ import { Random } from './Random';
 
 export abstract class Orthography {
     abstract name: string;
+    abstract note: string;
     abstract generateWord(): string;
 }
 
@@ -47,6 +48,7 @@ export abstract class ConsonantVowelOrthography extends Orthography {
 
 export class LatinOrthography extends ConsonantVowelOrthography {
     name = 'Latin';
+    note = "Easiest for new players who speak English.";
     maxSegments: number = 6;
     consonants = "bcdfghjklmnpqrstvwxyz".split("");
     followingConsonants = "bcgklprstyz".split("");
@@ -57,6 +59,7 @@ export class LatinOrthography extends ConsonantVowelOrthography {
 
 export class ShavianOrthography extends ConsonantVowelOrthography {
     name = "Shavian";
+    note = "A constructed phonetic alphabet designed to replace the English alphabet.";
     maxSegments: number = 6;
     consonants = "𐑐 𐑚 𐑑 𐑛 𐑒 𐑜 𐑓 𐑝 𐑔 𐑞 𐑕 𐑟 𐑖 𐑠 𐑗 𐑡 𐑘 𐑢 𐑙 𐑣 𐑤 𐑮 𐑥 𐑯".split(" ");
     followingConsonants = this.consonants;
@@ -75,6 +78,7 @@ export class ShavianOrthography extends ConsonantVowelOrthography {
 
 export class OldItalicOrthography extends ConsonantVowelOrthography {
     name = "Old Italic";
+    note = "A dead script used by the Etruscans and other ancient Italian peoples.";
     maxSegments: number = 6;
     consonants = "𐌁 𐌂 𐌃 𐌅 𐌆 𐌇 𐌈 𐌊 𐌋 𐌌 𐌍 𐌎 𐌐 𐌑 𐌒 𐌛 𐌔 𐌕 𐌗 𐌘 𐌙 𐌚".split(" ");
     followingConsonants = this.consonants;
@@ -84,6 +88,7 @@ export class OldItalicOrthography extends ConsonantVowelOrthography {
 
 export class PheonicianOrthography extends ConsonantVowelOrthography {
     name = "Phoenician";
+    note = "An ancient script used by the Phoenicians and other ancient Mediterranean peoples.";
     maxSegments = 8;
     consonants = "𐤀 𐤁 𐤂 𐤃 𐤄 𐤅 𐤆 𐤇 𐤈 𐤉 𐤊 𐤋 𐤌 𐤍 𐤎 𐤏 𐤐 𐤑 𐤒 𐤓 𐤔 𐤕".split(" ");
     followingConsonants = this.consonants;
@@ -93,6 +98,7 @@ export class PheonicianOrthography extends ConsonantVowelOrthography {
 
 export class GreekOrthography extends ConsonantVowelOrthography {
     name = "Greek";
+    note = "The greek letters used in ancient times and today.";
     maxSegments = 10;
     consonants = `β γ δ ζ θ κ λ μ ν ξ π ρ σ τ φ χ ψ`.split(" ");
     followingConsonants = `γ δ θ κ λ μ ν ξ π ρ σ τ φ`.split(" ");

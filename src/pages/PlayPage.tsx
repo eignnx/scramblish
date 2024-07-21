@@ -1,11 +1,11 @@
 import React from 'react';
 import './PlayPage.css';
-import { Lang } from '../App';
+import { Lang, PuzzleParams } from '../App';
 import Sentence, { WordOrBlank } from './PlayPage/Sentence';
 import { PuzzleGenerator, Translation } from '../lib/puzzle';
 import { Question } from '../lib/question';
 import { Syntax } from '../lib/syntax-tree';
-import { orthographies } from '../lib/orthography';
+import { orthographies, Orthography } from '../lib/orthography';
 import { Random } from '../lib/Random';
 
 export type WordHighlight = {
@@ -41,7 +41,11 @@ export const WordCountContext = React.createContext<WordCounts>({
     english: {}, scramblish: {}
 });
 
-export default function PlayPage() {
+type Props = {
+    puzzleParams: PuzzleParams;
+};
+
+export default function PlayPage({ puzzleParams }: Props) {
     const [ortho, setOrtho] = React.useState(() => Random.choice(orthographies));
     const [puzzleGen, setPuzzleGen] = React.useState(() => new PuzzleGenerator(ortho));
     const [examples, setExamples] = React.useState<Translation<Syntax>[]>(puzzleGen.generateTranslations());

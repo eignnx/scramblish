@@ -39,3 +39,27 @@ a:visited {
 .form-field>input {
     grid-column: 2/3;
 }
+
+
+.checkbox-wrapper {
+    display: flex;
+    /* justify-content: space-between; */
+}
+
+.checkbox-wrapper p {
+    margin-top: 0rem;
+}
+
+.script-note {
+    font-size: small;
+    font-style: italic;
+    /* font-variant: small-caps; */
+    color: var(--accent-color);
+}
+
+.script-checkbox {
+    margin-right: 1rem;
+    /* margin-bottom: 1rem;
+    padding-right: 1rem;
+    border-right: 2px solid var(--heading-color); */
+}
