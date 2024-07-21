@@ -41,7 +41,7 @@ export default function MenuPage({ puzzleParams, setPuzzleParams }: Props) {
                 </ul>
             </section>
             <div id="new-game-link-wrapper">
-                <Link to="/play" id="new-game-link">Start New Game</Link>
+                <Link to="/play" id="new-game-link">Start Game</Link>
             </div>
         </main>
     );

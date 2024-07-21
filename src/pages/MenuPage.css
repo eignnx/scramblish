@@ -25,10 +25,6 @@ a:visited {
     background-color: hsla(42, 100%, 62%, 0.2);
 }
 
-#new-game-link::before {
-    content: "🎲 ";
-}
-
 #new-game-link-wrapper {
     display: flex;
     justify-content: center;
@@ -48,7 +44,7 @@ ul.option-fields {
     margin-block: 1rem;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 4fr;
     gap: 1rem;
 }
 
