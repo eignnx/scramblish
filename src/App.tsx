@@ -39,6 +39,7 @@ function App() {
           } />
         </Routes>
       </Router>
+      <footer></footer>
     </div>
   );
 }

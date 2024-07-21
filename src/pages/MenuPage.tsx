@@ -14,7 +14,7 @@ export default function MenuPage({ puzzleParams, setPuzzleParams }: Props) {
             <h1>Menu</h1>
             <section className="options-section">
                 <h2>Options</h2>
-                <ul>
+                <ul className="option-fields">
                     <li className="form-field">
                         <label htmlFor="example-count-opt">Number of examples</label>
                         <input type="number" name="example-count-opt" id="example-count-opt" />
@@ -37,7 +37,9 @@ export default function MenuPage({ puzzleParams, setPuzzleParams }: Props) {
                     </li>
                 </ul>
             </section>
-            <Link to="/play" id="new-game-link">Start New Game</Link>
+            <div id="new-game-link-wrapper">
+                <Link to="/play" id="new-game-link">Start New Game</Link>
+            </div>
         </main>
     );
 }

@@ -12,11 +12,31 @@ a:visited {
 }
 
 #new-game-link {
-    font-size: x-large;
+    font-size: large;
+    text-align: center;
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    padding: 1rem;
+    margin-top: 2rem;
+    padding-inline: 3rem;
+}
+
+#new-game-link:hover {
+    background-color: hsla(42, 100%, 62%, 0.2);
 }
 
 #new-game-link::before {
     content: "🎲 ";
+}
+
+#new-game-link-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+ul.option-fields {
+    list-style-type: none;
+    padding: 0;
 }
 
 .options-section {
@@ -52,9 +72,7 @@ a:visited {
 
 .script-note {
     font-size: small;
-    font-style: italic;
-    /* font-variant: small-caps; */
-    color: var(--accent-color);
+    /* color: var(--accent-color); */
 }
 
 .script-checkbox {

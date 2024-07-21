@@ -90,3 +90,9 @@ nav {
   padding: 1em;
   border-bottom: 2px solid var(--accent-color);
 }
+
+footer {
+  border-top: 2px solid var(--accent-color);
+  margin-top: 3rem;
+  padding: 1rem;
+}
