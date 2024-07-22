@@ -27,7 +27,7 @@ code {
   --scramblish-word-color: #f3fe28;
 }
 
-html {
+body {
   background-color: var(--bg-color);
   color: var(--text-color)
 }
