@@ -1,0 +1,21 @@
+table {
+    position: fixed;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    text-align: center;
+    margin: 0;
+    border: 1px solid var(--accent-color);
+}
+
+th {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+th,
+td {
+    padding: 0.5rem;
+}

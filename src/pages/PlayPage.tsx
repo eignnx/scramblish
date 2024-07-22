@@ -7,6 +7,7 @@ import { Question } from '../lib/question';
 import { Syntax } from '../lib/syntax-tree';
 import { orthographies, Orthography } from '../lib/orthography';
 import { Random } from '../lib/Random';
+import TranslationNotes from './PlayPage/TranslationNotes';
 
 export type WordHighlight = {
     setHighlight: (lang: Lang, word: string) => void;
@@ -151,9 +152,11 @@ export default function PlayPage({ puzzleParams }: Props) {
     }
 
     function regeneratePuzzle() {
-        setOrtho(Random.choice(orthographies));
-        // setPuzzleGen(new PuzzleGenerator());
+        const newOrtho = Random.choice([...puzzleParams.scriptPool.values()]);
+        setPuzzleGen(new PuzzleGenerator(newOrtho, puzzleParams.initialExampleCount));
+        setOrtho(newOrtho);
         setExamples(puzzleGen.generateTranslations());
+        setQuestions(puzzleGen.generateQuestions());
         setSelectedWords({
             hovered: null,
             marked: {
@@ -164,49 +167,55 @@ export default function PlayPage({ puzzleParams }: Props) {
     }
 
     return (
-        <main>
-            <h1>Play</h1>
-            <section id="play-page-controls">
-                <button onClick={addAnotherExample}>Add Another Example</button>
-                <button onClick={regeneratePuzzle}>Regenerate Puzzle</button>
-            </section>
-            <WordCountContext.Provider value={wordCounts}>
-                <SelectedWordsContext.Provider value={selectedWords}>
-                    <section id="section-examples">
-                        {examples.map(({ english, scramblish }, i) => (
-                            <div className='example-wrapper' key={`examples-div-${i}`}>
-                                <h2>Example {i + 1}</h2>
-                                <div>
-                                    <span className='example scramblish'>
-                                        <Sentence
-                                            key={`Sentence-scramblish-${i}`}
-                                            lang='scramblish'
-                                            words={intoWordsOrBlanks(scramblish)}
-                                            wordHighlight={wordHighlight}
-                                        />
-                                    </span>
-                                    <span className='example english'>
-                                        <Sentence
-                                            key={`Sentence-english-${i}`}
-                                            lang='english'
-                                            words={intoWordsOrBlanks(english)}
-                                            wordHighlight={wordHighlight}
-                                        />
-                                    </span>
+        <WordCountContext.Provider value={wordCounts}>
+            <SelectedWordsContext.Provider value={selectedWords}>
+                <div id="main-aside-wrapper">
+                    <main>
+                        <h1>Play</h1>
+                        <section id="play-page-controls">
+                            <button onClick={addAnotherExample}>Add Another Example</button>
+                            <button onClick={regeneratePuzzle}>Regenerate Puzzle</button>
+                        </section>
+                        <section id="section-examples">
+                            {examples.map(({ english, scramblish }, i) => (
+                                <div className='example-wrapper' key={`examples-div-${i}`}>
+                                    <h2>Example {i + 1}</h2>
+                                    <div>
+                                        <span className='example scramblish'>
+                                            <Sentence
+                                                key={`Sentence-scramblish-${i}`}
+                                                lang='scramblish'
+                                                words={intoWordsOrBlanks(scramblish)}
+                                                wordHighlight={wordHighlight}
+                                            />
+                                        </span>
+                                        <span className='example english'>
+                                            <Sentence
+                                                key={`Sentence-english-${i}`}
+                                                lang='english'
+                                                words={intoWordsOrBlanks(english)}
+                                                wordHighlight={wordHighlight}
+                                            />
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </section>
-                    <section id="section-questions">
-                        {questions.map((question, i) => (
-                            <div className="example-wrapper" key={`questions-div-${i}`}>
-                                <h2>Question {i + 1}</h2>
-                                {question.render({ wordHighlight }, i)}
-                            </div>
-                        ))}
-                    </section>
-                </SelectedWordsContext.Provider>
-            </WordCountContext.Provider>
-        </main>
+                            ))}
+                        </section>
+                        <section id="section-questions">
+                            {questions.map((question, i) => (
+                                <div className="example-wrapper" key={`questions-div-${i}`}>
+                                    <h2>Question {i + 1}</h2>
+                                    {question.render({ wordHighlight }, i)}
+                                </div>
+                            ))}
+                        </section>
+                    </main>
+                    <TranslationNotes
+                        setSelectedWords={setSelectedWords}
+                        wordHighlight={wordHighlight}
+                    />
+                </div>
+            </SelectedWordsContext.Provider>
+        </WordCountContext.Provider>
     );
 };

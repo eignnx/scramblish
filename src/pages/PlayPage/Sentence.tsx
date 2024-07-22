@@ -20,9 +20,6 @@ type SentenceProps = {
 
 const Sentence: React.FC<SentenceProps> = ({ lang, words, wordHighlight }) => {
     const [blankContent, setBlankContent] = React.useState('');
-    const wordCounts = React.useContext(WordCountContext);
-    const selectedWords = React.useContext(SelectedWordsContext);
-
     const key = words.map((item) => item.type === 'word' ? item.word : '___').join('-');
     return (
         <p className="sentence" key={`Sentence-p--${key}`}>{words.map((item, i) => {
@@ -42,7 +39,7 @@ const Sentence: React.FC<SentenceProps> = ({ lang, words, wordHighlight }) => {
                     lang={lang}
                     word={word}
                     wordHighlight={wordHighlight}
-                    wordCounts={wordCounts}
+                    showLinkedWord
                 />;
             }
         })}</p >

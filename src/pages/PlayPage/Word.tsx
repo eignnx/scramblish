@@ -1,21 +1,22 @@
 import React from 'react';
 import { Lang } from '../../App';
-import { HighlightInteraction, SelectedWordsContext, WordCounts, WordHighlight } from '../PlayPage';
+import { HighlightInteraction, SelectedWordsContext, WordCountContext, WordCounts, WordHighlight } from '../PlayPage';
 import cx from 'classnames';
 
 type WordProps = {
     lang: Lang;
     word: string;
     wordHighlight: WordHighlight;
-    wordCounts: WordCounts;
+    showLinkedWord?: boolean;
 };
 
 export default function Word({
     lang, word, wordHighlight: {
         setHighlight, clearHighlight, clickWord, linkWord
-    }, wordCounts,
+    }, showLinkedWord
 }: WordProps) {
     const selectedWords = React.useContext(SelectedWordsContext);
+    const wordCounts = React.useContext(WordCountContext);
 
     const highlightInteraction: HighlightInteraction = selectedWords.marked[lang][word];
     const wordIsMarked = typeof highlightInteraction === 'string';
@@ -55,11 +56,13 @@ export default function Word({
             onMouseEnter={() => setHighlight(lang, word)}
             onMouseLeave={() => clearHighlight(lang, word)}
             onClick={e => handleClick(e, lang, word)}
-        >{word}
-            {wordIsLinked && <span
-                className="linked-word-note"
-                style={{ color: chooseColor(lang, word, linkedWord) }}
-            >({linkedWord})</span>}
+        ><span className="word-text">{word}</span>
+            {wordIsLinked && showLinkedWord && (
+                <span
+                    className="linked-word-note"
+                    style={{ color: chooseColor(lang, word, linkedWord) }}
+                >({linkedWord})</span>
+            )}
         </span>
         <span
             className="word-count"
