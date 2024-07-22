@@ -19,3 +19,8 @@ th,
 td {
     padding: 0.5rem;
 }
+
+.empty-translation-notes {
+    font-style: italic;
+    font-size: smaller;
+}

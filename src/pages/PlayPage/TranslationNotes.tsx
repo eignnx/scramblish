@@ -36,7 +36,7 @@ export default function TranslationNotes({ setSelectedWords, wordHighlight }: Pr
                     </tr>
                 </thead>
                 <tbody>
-                    {wordPairs.map(([english, scramblish], i) => (
+                    {wordPairs.length > 0 ? wordPairs.map(([english, scramblish], i) => (
                         <tr key={i}>
                             <td><Word word={english} lang='english' wordHighlight={wordHighlight} /></td>
                             <td><Word word={scramblish} lang='scramblish' wordHighlight={wordHighlight} /></td>
@@ -47,7 +47,11 @@ export default function TranslationNotes({ setSelectedWords, wordHighlight }: Pr
                                 >🗙</button>
                             </td>
                         </tr>
-                    ))}
+                    )) : (
+                        <tr>
+                            <td className="empty-translation-notes" colSpan={3}>No translation notes yet.</td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
         </aside>

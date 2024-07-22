@@ -75,7 +75,7 @@ h6 {
 
 * {
   /* Bad idea? */
-  transition: all 0.15s;
+  /* transition: all 0.15s; */
 }
 
 nav a {
