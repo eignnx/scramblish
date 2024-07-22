@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PuzzleParams } from '../App';
-import { orthographies } from '../lib/orthography';
+import { orthographies, Orthography } from '../lib/orthography';
 import "./MenuPage.css";
 
 type Props = {
@@ -9,15 +9,36 @@ type Props = {
 };
 
 export default function MenuPage({ puzzleParams, setPuzzleParams }: Props) {
+
+
+    const navTo = useNavigate();
+
     return (
         <main>
             <h1>Menu</h1>
-            <section className="options-section">
+            <form
+                className="options-section"
+                onSubmit={e => submitForm(e)}
+                method="dialog"
+            >
                 <h2>Options</h2>
                 <ul className="option-fields">
                     <li className="form-field">
                         <label htmlFor="example-count-opt">Number of examples</label>
-                        <input type="number" name="example-count-opt" id="example-count-opt" />
+                        <input
+                            type="number"
+                            required
+                            name="example-count-opt"
+                            id="example-count-opt"
+                            min="1"
+                            max="64"
+                            step="1"
+                            value={puzzleParams.initialExampleCount}
+                            onInput={(e) => {
+                                const val = parseInt((e.target as HTMLInputElement).value);
+                                setPuzzleParams((prev) => new PuzzleParams(val, prev.scriptPool));
+                            }}
+                        />
                     </li>
                     <li className="form-field">
                         <label htmlFor="script-pool-checkboxes">Script Pool</label>
@@ -25,7 +46,20 @@ export default function MenuPage({ puzzleParams, setPuzzleParams }: Props) {
                             {orthographies.map((ortho, i) => (
                                 <div key={i} className="checkbox-wrapper">
                                     <div className="script-checkbox">
-                                        <input type="checkbox" name={ortho.name} id={`checkbox-${ortho.name}`} />
+                                        <input
+                                            type="checkbox"
+                                            name={ortho.name}
+                                            id={`checkbox-${ortho.name}`}
+                                            checked={puzzleParams.scriptPool.has(ortho)}
+                                            onChange={() => {
+                                                setPuzzleParams((prev) => {
+                                                    const newPool = new Set(prev.scriptPool);
+                                                    if (newPool.has(ortho)) newPool.delete(ortho);
+                                                    else newPool.add(ortho);
+                                                    return new PuzzleParams(prev.initialExampleCount, newPool);
+                                                });
+                                            }}
+                                        />
                                     </div>
                                     <div>
                                         <div>
@@ -39,10 +73,22 @@ export default function MenuPage({ puzzleParams, setPuzzleParams }: Props) {
                         </div>
                     </li>
                 </ul>
-            </section>
-            <div id="new-game-link-wrapper">
-                <Link to="/play" id="new-game-link">Start Game</Link>
-            </div>
+                <div id="new-game-link-wrapper">
+                    <input
+                        type="submit"
+                        id="new-game-link"
+                        value="Start Game"
+                        disabled={puzzleParams.scriptPool.size === 0}
+                        onClick={submitForm}
+                    />
+                </div>
+            </form>
         </main>
     );
+
+    function submitForm(e: React.FormEvent<any>) {
+        // Push to browser history to go to the play page
+        e.preventDefault();
+        navTo("/play");
+    }
 }

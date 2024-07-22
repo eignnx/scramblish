@@ -46,8 +46,8 @@ type Props = {
 };
 
 export default function PlayPage({ puzzleParams }: Props) {
-    const [ortho, setOrtho] = React.useState(() => Random.choice(orthographies));
-    const [puzzleGen, setPuzzleGen] = React.useState(() => new PuzzleGenerator(ortho));
+    const [ortho, setOrtho] = React.useState(() => Random.choice([...puzzleParams.scriptPool.values()]));
+    const [puzzleGen, setPuzzleGen] = React.useState(() => new PuzzleGenerator(ortho, puzzleParams.initialExampleCount));
     const [examples, setExamples] = React.useState<Translation<Syntax>[]>(puzzleGen.generateTranslations());
     const [questions, setQuestions] = React.useState<Question[]>(puzzleGen.generateQuestions());
     const [selectedWords, setSelectedWords] = React.useState<SelectedWordState>({

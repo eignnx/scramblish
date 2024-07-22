@@ -1,5 +1,5 @@
 import { Form, Grammar } from './grammar';
-import { LatinOrthography, Orthography } from './orthography';
+import { RomanOrthography, Orthography } from './orthography';
 import { Random } from './Random';
 import { Syntax, SyntaxLeaf, SyntaxNode } from './syntax-tree';
 

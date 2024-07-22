@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import MenuPage from './pages/MenuPage';
 import PlayPage from './pages/PlayPage';
-import { orthographies, Orthography } from './lib/orthography';
+import { orthographies, Orthography, RomanOrthography } from './lib/orthography';
 
 export type Lang = 'english' | 'scramblish';
 
@@ -17,7 +17,7 @@ export class PuzzleParams {
 function App() {
   const [puzzleParams, setPuzzleParams] = React.useState(new PuzzleParams(
     1,
-    new Set<Orthography>(orthographies),
+    new Set<Orthography>([orthographies[0]]),
   ));
 
 

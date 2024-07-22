@@ -50,8 +50,8 @@ export abstract class ConsonantVowelOrthography extends Orthography {
     }
 }
 
-export class LatinOrthography extends ConsonantVowelOrthography {
-    name = 'Latin';
+export class RomanOrthography extends ConsonantVowelOrthography {
+    name = 'Roman';
     note = "Easiest for new players who speak English.";
     sample: string = "xuro runzu cafporzeoz qei";
     orthoDir: OrthoDir = "ltr";
@@ -122,7 +122,7 @@ export class GreekOrthography extends ConsonantVowelOrthography {
 }
 
 export const orthographies: Orthography[] = [
-    new LatinOrthography(),
+    new RomanOrthography(),
     new ShavianOrthography(),
     new OldItalicOrthography(),
     new PheonicianOrthography(),

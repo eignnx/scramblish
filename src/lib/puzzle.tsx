@@ -11,12 +11,13 @@ export type Translation<T> = {
 };
 
 export class PuzzleGenerator {
-    exCount: number = 3;
+    exCount: number;
     minLength: number = 4;
     maxLength: number = 12;
     M: GrammarMutation;
 
-    constructor(ortho: Orthography) {
+    constructor(ortho: Orthography, exCount: number) {
+        this.exCount = exCount;
         this.M = GrammarMutation.fromGrammar(En, ortho);
     }
 

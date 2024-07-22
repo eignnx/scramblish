@@ -19,10 +19,20 @@ a:visited {
     padding: 1rem;
     margin-top: 2rem;
     padding-inline: 3rem;
+    background: transparent;
+    color: inherit;
+    background-color: hsla(42, 100%, 62%, 0.1);
 }
 
-#new-game-link:hover {
+#new-game-link:hover:not(:disabled) {
     background-color: hsla(42, 100%, 62%, 0.2);
+}
+
+#new-game-link:disabled {
+    border-style: dashed;
+    background-color: transparent;
+    font-style: italic;
+    color: rgba(255, 204, 0, 0.404)
 }
 
 #new-game-link-wrapper {
