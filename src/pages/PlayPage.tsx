@@ -185,7 +185,7 @@ export default function PlayPage({ puzzleParams }: Props) {
                                 Script style &mdash; <span title={ortho.note}>{ortho.name}</span>
                             </header>
                             <section id="play-page-controls">
-                                <button onClick={regeneratePuzzle}>Regenerate Puzzle</button>
+                                <button onClick={regeneratePuzzle}>⟳ Regenerate Puzzle</button>
                             </section>
                             <section id="section-examples">
                                 {examples.map(({ english, scramblish }, i) => (
