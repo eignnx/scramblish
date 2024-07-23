@@ -48,6 +48,10 @@ button:hover {
   background-color: rgba(from var(--heading-color) r g b / 0.2);
 }
 
+input[type="text"] {
+  text-align: center;
+}
+
 input[type="text"],
 input[type="number"] {
   font-family: inherit;
