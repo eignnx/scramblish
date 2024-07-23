@@ -103,6 +103,15 @@ input[type="text"].blank {
     user-select: none;
 }
 
+.sentence .word-wrapper:nth-child(1) .english .word-text {
+    text-transform: capitalize;
+}
+
+.sentence .word-wrapper:last-child .english::after {
+    content: ".";
+    color: var(--text-color);
+}
+
 .word-wrapper:nth-child(even of .word-wrapper-linked) .linked-word-note {
     top: 40%;
 }
