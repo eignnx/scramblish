@@ -1,6 +1,6 @@
 import React from 'react';
 import { Lang } from '../../App';
-import { HighlightInteraction, SelectedWordsContext, WordCountContext, WordCounts, WordHighlight } from '../PlayPage';
+import { HighlightInteraction, OrthographyContext, SelectedWordsContext, WordCountContext, WordCounts, WordHighlight } from '../PlayPage';
 import cx from 'classnames';
 
 type WordProps = {
@@ -17,6 +17,7 @@ export default function Word({
 }: WordProps) {
     const selectedWords = React.useContext(SelectedWordsContext);
     const wordCounts = React.useContext(WordCountContext);
+    const ortho = React.useContext(OrthographyContext);
 
     const highlightInteraction: HighlightInteraction = selectedWords.marked[lang][word];
     const wordIsMarked = typeof highlightInteraction === 'string';
@@ -56,7 +57,10 @@ export default function Word({
             onMouseEnter={() => setHighlight(lang, word)}
             onMouseLeave={() => clearHighlight(lang, word)}
             onClick={e => handleClick(e, lang, word)}
-        ><span className="word-text">{word}</span>
+        ><span className={cx({
+            [`script--${ortho.name}`]: lang === 'scramblish',
+            "word-text": true
+        })}>{word}</span>
             {wordIsLinked && showLinkedWord && (
                 <span
                     className="linked-word-note"

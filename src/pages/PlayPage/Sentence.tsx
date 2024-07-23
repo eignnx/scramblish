@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Lang } from '../../App';
-import { WordCountContext, WordHighlight, SelectedWordsContext } from '../PlayPage';
+import { WordCountContext, WordHighlight, SelectedWordsContext, OrthographyContext } from '../PlayPage';
 import Word from './Word';
 
 export type WordOrBlank = {
@@ -20,13 +20,18 @@ type SentenceProps = {
 
 const Sentence: React.FC<SentenceProps> = ({ lang, words, wordHighlight }) => {
     const [blankContent, setBlankContent] = React.useState('');
-    const key = words.map((item) => item.type === 'word' ? item.word : '___').join('-');
+
     return (
-        <p className="sentence" key={`Sentence-p--${key}`}>{words.map((item, i) => {
+        <p className={cx({
+            sentence: true,
+        })}>{words.map((item, i) => {
             if (item.type === 'blank') {
                 return <input
                     key={`input-blank-${i}`}
-                    className={cx({ [lang]: true, blank: true })}
+                    className={cx({
+                        [lang]: true,
+                        blank: true,
+                    })}
                     type="text"
                     size={blankContent.length || (lang === 'english' ? 10 : 18)}
                     placeholder={lang === 'english' ? 'English word...' : 'Scramblish word...'}

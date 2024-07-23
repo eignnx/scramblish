@@ -8,6 +8,13 @@ main {
     width: 100%;
 }
 
+#puzzle-info {
+    margin-block-end: 1rem;
+    /* font-variant: small-caps; */
+    color: var(--heading-color);
+
+}
+
 #section-examples,
 #section-questions {
     border: 1px solid var(--accent-color);
@@ -67,12 +74,16 @@ input[type="text"].blank {
     margin-inline: 0.75ch;
 }
 
+.word-text {
+    transition: text-shadow 250ms ease-in-out;
+}
+
 .word-hovered>.word-text {
     text-decoration: underline;
     text-decoration-style: dotted;
-    --glow: rgba(255, 243, 105, 0.1);
-    background: var(--glow);
-    box-shadow: 0 0 10px 0.5rem var(--glow);
+    text-shadow:
+        lightgoldenrodyellow 0 0 20px,
+        black 2px 2px 3px;
     border-radius: 100%;
 }
 
@@ -148,10 +159,14 @@ input[type="text"].blank {
     position: relative;
     bottom: -0.65em;
     padding: 0.05ch;
-    color: rgba(255, 212, 84, 0.5);
+    color: rgb(223, 198, 124);
     font-family: sans-serif;
     /* disable selecting/highlighting with mouse */
     user-select: none;
+}
+
+.word-count {
+    text-shadow: 0.1ch 0.1ch 1px rgb(33, 26, 0);
 }
 
 span.hapax-legomenon {
@@ -166,4 +181,15 @@ span.hapax-legomenon {
     justify-content: center;
     gap: 1rem;
     padding: 0.5rem;
+}
+
+/******************************************************************************/
+
+.script--Roman.word-text {
+    /* font-family: 'Times New Roman', Times, serif; */
+    /* font-weight: bolder; */
+    font-family: "Cinzel", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
 }

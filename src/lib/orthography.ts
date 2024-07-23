@@ -56,9 +56,9 @@ export class RomanOrthography extends ConsonantVowelOrthography {
     sample: string = "xuro runzu cafporzeoz qei";
     orthoDir: OrthoDir = "ltr";
     maxSegments: number = 6;
-    consonants = "bcdfghjklmnpqrstvwxyz".split("");
-    followingConsonants = "bcgklprstyz".split("");
-    vowels = "aeiou".split("");
+    consonants = "BCDFGHJKLMNPQRSTVWXYZ".split("");
+    followingConsonants = "BCGKLPRSTYZ".split("");
+    vowels = "AEIO".split("");
     ligatures = {};
 }
 
