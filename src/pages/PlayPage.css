@@ -103,11 +103,11 @@ input[type="text"].blank {
     user-select: none;
 }
 
-.word-wrapper:nth-child(odd of .word-wrapper-linked) .linked-word-note {
+.word-wrapper:nth-child(even of .word-wrapper-linked) .linked-word-note {
     top: 40%;
 }
 
-.word-wrapper:nth-child(even of .word-wrapper-linked) .linked-word-note {
+.word-wrapper:nth-child(odd of .word-wrapper-linked) .linked-word-note {
     bottom: 35%;
 }
 
@@ -121,11 +121,11 @@ input[type="text"].blank {
     user-select: none;
 }
 
-.word-wrapper:nth-child(even of .word-wrapper-linked) .linked-word-note::before {
+.word-wrapper:nth-child(odd of .word-wrapper-linked) .linked-word-note::before {
     bottom: var(--shift);
 }
 
-.word-wrapper:nth-child(odd of .word-wrapper-linked) .linked-word-note::before {
+.word-wrapper:nth-child(even of .word-wrapper-linked) .linked-word-note::before {
     top: var(--shift);
 }
 
