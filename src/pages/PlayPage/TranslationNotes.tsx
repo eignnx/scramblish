@@ -10,17 +10,8 @@ type Props = {
 
 export default function TranslationNotes({ setSelectedWords, wordHighlight }: Props) {
     const selectedWords = React.useContext(SelectedWordsContext);
-    const wordPairs: [string, string][] = Object.entries(selectedWords.marked.english)
-        .flatMap(([english, highlightInteraction]) => {
-            if (typeof highlightInteraction === 'object') {
-                const { linkedTo: scramblish } = highlightInteraction;
-                if (scramblish) {
-                    const pair: [string, string] = [english, scramblish];
-                    return [pair];
-                }
-            }
-            return [];
-        });
+
+    const wordPairs = findWordPairs();
 
     return (
         <aside>
@@ -39,8 +30,8 @@ export default function TranslationNotes({ setSelectedWords, wordHighlight }: Pr
                     <tbody>
                         {wordPairs.length > 0 ? wordPairs.map(([english, scramblish], i) => (
                             <tr key={i}>
-                                <td><Word word={english} lang='english' wordHighlight={wordHighlight} /></td>
-                                <td><Word word={scramblish} lang='scramblish' wordHighlight={wordHighlight} /></td>
+                                <td>{english !== '—' ? <Word word={english} lang='english' wordHighlight={wordHighlight} /> : '—'}</td>
+                                <td>{scramblish !== '—' ? <Word word={scramblish} lang='scramblish' wordHighlight={wordHighlight} /> : '—'}</td>
                                 <td>
                                     <button
                                         title="Delete this translation pair"
@@ -56,8 +47,30 @@ export default function TranslationNotes({ setSelectedWords, wordHighlight }: Pr
                     </tbody>
                 </table>
             </div>
-        </aside>
+        </aside >
     );
+
+    function findWordPairs(): [string, string][] {
+        const enWordPairs: [string, string][] = Object.entries(selectedWords.marked.english)
+            .flatMap(([english, highlightInteraction]) => {
+                if (typeof highlightInteraction === 'object') {
+                    const { linkedTo: scramblish } = highlightInteraction;
+                    return [[english, scramblish ?? '—']] as [string, string][];
+                }
+                return [];
+            });
+
+        const scWordPairs: [string, string][] = Object.entries(selectedWords.marked.scramblish)
+            .flatMap(([scramblish, highlightInteraction]) => {
+                if (typeof highlightInteraction === 'object') {
+                    const { linkedTo: english } = highlightInteraction;
+                    if (english === null) return [['—', scramblish]] as [string, string][];
+                }
+                return [];
+            });
+
+        return [...enWordPairs, ...scWordPairs];
+    }
 
     function deleteTranslationPair(english: string, scramblish: string) {
         setSelectedWords((prev) => {
