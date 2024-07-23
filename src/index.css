@@ -33,9 +33,10 @@ body {
 }
 
 button {
-  background-color: transparent;
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
+  transition: all 0.10s;
+  background-color: rgba(from var(--heading-color) r g b / 0.05);
+  color: var(--heading-color);
+  border: 1px solid var(--heading-color);
   border-radius: 3px;
   padding: 0.5em 1em;
   font-size: smaller;
@@ -44,7 +45,7 @@ button {
 }
 
 button:hover {
-  background-color: rgba(254, 204, 40, 0.2);
+  background-color: rgba(from var(--heading-color) r g b / 0.2);
 }
 
 input[type="text"],

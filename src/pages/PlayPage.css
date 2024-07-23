@@ -151,7 +151,8 @@ span.hapax-legomenon {
     text-decoration-color: orange;
 }
 
-#add-example-btn-wrapper {
+#add-example-btn-wrapper,
+#add-question-btn-wrapper {
     display: flex;
     justify-content: center;
     gap: 1rem;

@@ -147,6 +147,11 @@ export default function PlayPage({ puzzleParams }: Props) {
         setExamples([...examples, newTranslation]);
     }
 
+    function addAnotherQuestion() {
+        const newQuestion = puzzleGen.generateQuestion();
+        setQuestions([...questions, newQuestion]);
+    }
+
     function intoWordsOrBlanks(sentence: Syntax): WordOrBlank[] {
         return sentence.render().split(" ").map((word) => ({ type: 'word', word }));
     }
@@ -211,6 +216,9 @@ export default function PlayPage({ puzzleParams }: Props) {
                                     {question.render({ wordHighlight }, i)}
                                 </div>
                             ))}
+                            <div id="add-question-btn-wrapper">
+                                <button onClick={addAnotherQuestion}>+ Additional Question</button>
+                            </div>
                         </section>
                     </main>
                     <TranslationNotes
