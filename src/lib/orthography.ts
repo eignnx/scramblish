@@ -52,8 +52,8 @@ export abstract class ConsonantVowelOrthography extends Orthography {
 
 export class RomanOrthography extends ConsonantVowelOrthography {
     name = 'Roman';
-    note = "Easiest for new players who speak English.";
-    sample: string = "xuro runzu cafporzeoz qei";
+    note = "The Roman alphabet. Easiest for new players who speak English.";
+    sample: string = "REXO RENIV CAPORTEOF QEI";
     orthoDir: OrthoDir = "ltr";
     maxSegments: number = 6;
     consonants = "BCDFGHJKLMNPQRSTVWXYZ".split("");
@@ -65,7 +65,7 @@ export class RomanOrthography extends ConsonantVowelOrthography {
 
 export class ShavianOrthography extends ConsonantVowelOrthography {
     name = "Shavian";
-    note = "A constructed phonetic alphabet designed to replace the English alphabet.";
+    note = "A phonetic, constructed alphabet designed to replace the English alphabet.";
     sample: string = "𐑘𐑧 𐑤𐑗𐑫𐑧𐑞 𐑐𐑱𐑕𐑰 𐑘𐑭𐑑 𐑕𐑱𐑕𐑣𐑲𐑒𐑡𐑪";
     orthoDir: OrthoDir = "ltr";
     maxSegments: number = 6;
@@ -99,7 +99,7 @@ export class OldItalicOrthography extends ConsonantVowelOrthography {
 export class PheonicianOrthography extends ConsonantVowelOrthography {
     name = "Phoenician";
     note = "An ancient script used by the Phoenicians and other ancient Mediterranean peoples.";
-    sample: string = "𐤒𐤃 𐤈𐤎𐤁 𐤎𐤋𐤎𐤋";
+    sample: string = "𐤒𐤃 𐤈𐤎𐤁 𐤉 𐤊𐤎𐤋𐤅";
     orthoDir: OrthoDir = "rtl";
     maxSegments = 8;
     consonants = "𐤀 𐤁 𐤂 𐤃 𐤄 𐤅 𐤆 𐤇 𐤈 𐤉 𐤊 𐤋 𐤌 𐤍 𐤎 𐤏 𐤐 𐤑 𐤒 𐤓 𐤔 𐤕".split(" ");
@@ -116,7 +116,6 @@ export class GreekOrthography extends ConsonantVowelOrthography {
     maxSegments = 10;
     consonants = `β γ δ ζ θ κ λ μ ν ξ π ρ σ τ φ χ ψ ϝ ϙ ͳ`.split(" ");
     followingConsonants = `γ δ θ κ λ μ ν ξ π ρ σ τ φ`.split(" ");
-    ;
     vowels = "α ε η ι ο υ ω".split(" ");
     ligatures = { "και": "ϗ", "στ": "ϛ" };
 }
