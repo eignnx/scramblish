@@ -27,33 +27,35 @@ export default function TranslationNotes({ setSelectedWords, wordHighlight }: Pr
             <header id="translation-notes-header">
                 <h3>Translation Notes</h3>
             </header>
-            <table>
-                <thead>
-                    <tr>
-                        <th>English</th>
-                        <th>Scramblish</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {wordPairs.length > 0 ? wordPairs.map(([english, scramblish], i) => (
-                        <tr key={i}>
-                            <td><Word word={english} lang='english' wordHighlight={wordHighlight} /></td>
-                            <td><Word word={scramblish} lang='scramblish' wordHighlight={wordHighlight} /></td>
-                            <td>
-                                <button
-                                    title="Delete this translation pair"
-                                    onClick={() => deleteTranslationPair(english, scramblish)}
-                                >🗙</button>
-                            </td>
-                        </tr>
-                    )) : (
+            <div id="translation-notes-scroll-container">
+                <table>
+                    <thead>
                         <tr>
-                            <td className="empty-translation-notes" colSpan={3}>No translation notes yet.</td>
+                            <th>English</th>
+                            <th>Scramblish</th>
+                            <th></th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {wordPairs.length > 0 ? wordPairs.map(([english, scramblish], i) => (
+                            <tr key={i}>
+                                <td><Word word={english} lang='english' wordHighlight={wordHighlight} /></td>
+                                <td><Word word={scramblish} lang='scramblish' wordHighlight={wordHighlight} /></td>
+                                <td>
+                                    <button
+                                        title="Delete this translation pair"
+                                        onClick={() => deleteTranslationPair(english, scramblish)}
+                                    >🗙</button>
+                                </td>
+                            </tr>
+                        )) : (
+                            <tr>
+                                <td className="empty-translation-notes" colSpan={3}>No translation notes yet.</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </aside>
     );
 

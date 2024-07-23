@@ -11,7 +11,7 @@ main {
 #section-examples,
 #section-questions {
     border: 1px solid var(--accent-color);
-    border-radius: 5px;
+    border-radius: 3px;
     margin-block: 1em;
 }
 
@@ -149,4 +149,11 @@ span.hapax-legomenon {
     text-decoration-style: wavy;
     text-decoration-thickness: 2%;
     text-decoration-color: orange;
+}
+
+#add-example-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
 }

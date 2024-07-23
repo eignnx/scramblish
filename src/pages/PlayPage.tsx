@@ -153,10 +153,11 @@ export default function PlayPage({ puzzleParams }: Props) {
 
     function regeneratePuzzle() {
         const newOrtho = Random.choice([...puzzleParams.scriptPool.values()]);
-        setPuzzleGen(new PuzzleGenerator(newOrtho, puzzleParams.initialExampleCount));
+        const newPuzzleGen = new PuzzleGenerator(newOrtho, puzzleParams.initialExampleCount);
+        setPuzzleGen(newPuzzleGen);
         setOrtho(newOrtho);
-        setExamples(puzzleGen.generateTranslations());
-        setQuestions(puzzleGen.generateQuestions());
+        setExamples(newPuzzleGen.generateTranslations());
+        setQuestions(newPuzzleGen.generateQuestions());
         setSelectedWords({
             hovered: null,
             marked: {
@@ -173,7 +174,6 @@ export default function PlayPage({ puzzleParams }: Props) {
                     <main>
                         <h1>Play</h1>
                         <section id="play-page-controls">
-                            <button onClick={addAnotherExample}>Add Another Example</button>
                             <button onClick={regeneratePuzzle}>Regenerate Puzzle</button>
                         </section>
                         <section id="section-examples">
@@ -200,6 +200,9 @@ export default function PlayPage({ puzzleParams }: Props) {
                                     </div>
                                 </div>
                             ))}
+                            <div id="add-example-btn-wrapper">
+                                <button onClick={addAnotherExample}>+ Additional Example</button>
+                            </div>
                         </section>
                         <section id="section-questions">
                             {questions.map((question, i) => (
