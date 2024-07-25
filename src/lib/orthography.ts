@@ -132,7 +132,7 @@ export class OghamOrthography extends ConsonantVowelOrthography {
     note = "An Early Medieval alphabet used primarily to write the early Irish language, and later the Old Irish language.";
     sample: string = "᚛ᚂᚓᚌᚌᚄᚇᚂᚓᚌᚓᚄᚉᚐᚇ᚜ ᚛ᚋᚐᚊ ᚉᚑᚏᚏᚁᚏᚔ ᚋᚐᚊ ᚐᚋᚋᚂᚂᚑᚌᚔᚈᚈ᚜";
     orthoDir: OrthoDir = "ltr";
-    maxSegments = 6;
+    maxSegments = 12;
     consonants = `ᚁ ᚂ ᚃ ᚄ ᚅ ᚋ ᚌ ᚍ ᚎ ᚏ ᚆ ᚇ ᚈ ᚉ ᚊ`.split(" ");
     followingConsonants = this.consonants;
     vowels = `ᚐ ᚑ ᚒ ᚓ ᚔ`.split(" ");
