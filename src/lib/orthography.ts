@@ -106,6 +106,13 @@ export class PheonicianOrthography extends ConsonantVowelOrthography {
     followingConsonants = this.consonants;
     vowels = [];
     ligatures = {};
+
+    generateWord(): string {
+        const superWord = super.generateWord();
+        const RLE_MARK = "\u202B";
+        const PDF_MARK = "\u202C";
+        return `${RLE_MARK}${superWord}${PDF_MARK}`;
+    }
 }
 
 export class GreekOrthography extends ConsonantVowelOrthography {
@@ -120,10 +127,28 @@ export class GreekOrthography extends ConsonantVowelOrthography {
     ligatures = { "και": "ϗ", "στ": "ϛ" };
 }
 
+export class OghamOrthography extends ConsonantVowelOrthography {
+    name = "Ogham";
+    note = "An Early Medieval alphabet used primarily to write the early Irish language, and later the Old Irish language.";
+    sample: string = "᚛ᚂᚓᚌᚌᚄᚇᚂᚓᚌᚓᚄᚉᚐᚇ᚜ ᚛ᚋᚐᚊ ᚉᚑᚏᚏᚁᚏᚔ ᚋᚐᚊ ᚐᚋᚋᚂᚂᚑᚌᚔᚈᚈ᚜";
+    orthoDir: OrthoDir = "ltr";
+    maxSegments = 6;
+    consonants = `ᚁ ᚂ ᚃ ᚄ ᚅ ᚋ ᚌ ᚍ ᚎ ᚏ ᚆ ᚇ ᚈ ᚉ ᚊ`.split(" ");
+    followingConsonants = this.consonants;
+    vowels = `ᚐ ᚑ ᚒ ᚓ ᚔ`.split(" ");
+    ligatures = {};
+
+    generateWord(): string {
+        const baseWord = super.generateWord();
+        return `᚛${baseWord}᚜`;
+    }
+}
+
 export const orthographies: Orthography[] = [
     new RomanOrthography(),
     new ShavianOrthography(),
     new OldItalicOrthography(),
     new PheonicianOrthography(),
     new GreekOrthography(),
+    new OghamOrthography(),
 ];
