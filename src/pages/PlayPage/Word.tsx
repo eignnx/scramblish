@@ -34,6 +34,18 @@ export default function Word({
         ? `1 occurrance of ${word}`
         : `${occurrances} occurrances of ${word}`;
 
+    const LRM = "\u200E"; // LRM: Left-to-Right Mark
+    const RLM = "\u200F"; // RLM: Right-to-Left Mark
+    const LRE = "\u202A"; // LRE: Left-to-Right Embedding
+    const RLE = "\u202B"; // RLE: Right-to-Left Embedding
+    const PDF = "\u202C"; // PDF: Pop Directional Formatting
+
+    const scramblishIsRTL = ortho.orthoDir === 'rtl';
+    const wordIsEnglish = lang === 'english';
+    const wordIsRTL = lang === 'scramblish' && scramblishIsRTL;
+    const noteIsLTR = lang === 'scramblish';
+    const noteIsRTL = lang === 'english' && scramblishIsRTL;
+
     return <span className={cx({
         "word-wrapper": true,
         "word-wrapper-linked": wordIsLinked,
@@ -65,7 +77,13 @@ export default function Word({
                 <span
                     className="linked-word-note"
                     style={{ color: chooseColor(lang, word, linkedWord) }}
-                >({linkedWord})</span>
+                >
+                    {wordIsEnglish && noteIsRTL && RLE}
+                    {!wordIsEnglish && scramblishIsRTL && LRE}
+                    ({linkedWord})
+                    {!wordIsEnglish && scramblishIsRTL && PDF}
+                    {lang === 'english' && scramblishIsRTL && PDF}
+                </span>
             )}
         </span>
         <span
