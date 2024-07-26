@@ -1,3 +1,5 @@
+import React from 'react';
+import cx from 'classnames';
 import { Lang } from '../App';
 import { SelectedWordState, WordCounts, WordHighlight } from '../pages/PlayPage';
 import Sentence, { WordOrBlank } from '../pages/PlayPage/Sentence';
@@ -120,17 +122,16 @@ abstract class TranslationQuestion implements Question {
                 wordHighlight={wordHighlight}
             />;
         } else {
-            return <input
-                key={`TranslationQuestion-input-scramblish-${key}`}
-                type="text"
-                className="scramblish"
-                style={{ width: "100%" }}
-                placeholder="Scramblish sentence..."
+            return <TranslationAnswerSection
+                answerLang={this.answerLang}
+                answer={this.getAnswer()}
+                fullWidth
             />;
         }
     }
 
     renderEnglish({ wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
+
         if (this.answerLang === 'scramblish') {
             return <Sentence
                 key={`TranslationQuestion-Sentence-english-${key}`}
@@ -139,12 +140,10 @@ abstract class TranslationQuestion implements Question {
                 wordHighlight={wordHighlight}
             />;
         } else {
-            return <input
-                key={`TranslationQuestion-input-english-${key}`}
-                type="text"
-                className="english"
-                style={{ width: "100%" }}
-                placeholder="English sentence..."
+            return <TranslationAnswerSection
+                answerLang={this.answerLang}
+                answer={this.getAnswer()}
+                fullWidth
             />;
         }
     }
@@ -165,4 +164,37 @@ export class TranslateEnglishToScramblish extends TranslationQuestion {
 
 export class TranslateScramblishToEnglish extends TranslationQuestion {
     answerLang: Lang = 'english';
+}
+
+function TranslationAnswerSection({ answerLang, answer, fullWidth }: { answerLang: Lang; answer: string; fullWidth: boolean; }) {
+    const [inputText, setInputText] = React.useState('');
+    const [checkAnswer, setCheckAnswer] = React.useState(false);
+    const [revealAnswer, setRevealAnswer] = React.useState(false);
+
+    const answerIsCorrect = inputText.trim() === answer;
+
+    return (
+        <div>
+            <button
+                onPointerDown={() => setCheckAnswer(true)}
+                onPointerUp={() => setCheckAnswer(false)}
+                onClick={e => { if (e.ctrlKey) setRevealAnswer(prev => !prev); }}
+            >Check Answer</button>
+            <input
+                type="text"
+                className={cx({
+                    [answerLang]: true,
+                    incorrect: checkAnswer && !answerIsCorrect,
+                    correct: checkAnswer && answerIsCorrect,
+                })}
+                style={{ ...(fullWidth ? { width: "100%" } : {}) }}
+                placeholder={`${answerLang} sentence...`}
+                value={inputText}
+                onInput={e => setInputText((e.target as HTMLInputElement).value)}
+            />
+            <div>
+                {revealAnswer && answer}
+            </div>
+        </div>
+    );
 }

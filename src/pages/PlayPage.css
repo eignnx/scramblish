@@ -183,6 +183,15 @@ span.hapax-legomenon {
     padding: 0.5rem;
 }
 
+input[type="text"].incorrect {
+    outline: red solid 3px;
+    text-decoration: line-through;
+}
+
+input[type="text"].correct {
+    outline: green solid 3px;
+}
+
 /******************************************************************************/
 
 .script--Roman.word-text {
