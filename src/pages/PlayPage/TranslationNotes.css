@@ -1,15 +1,21 @@
 aside {
-    height: 100%;
-    position: relative;
+    width: 20rem;
 }
 
 #translation-notes-scroll-container {
-    position: fixed;
     overflow-y: scroll;
-    height: 60vh;
-    bottom: 3rem;
-    border: 1px solid var(--accent-color);
-    box-shadow: 0 0 15px black;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    padding: 1rem;
+    border-inline-start: 1px solid var(--accent-color);
+    /* border-radius: 4px; */
+    width: 20rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 table {

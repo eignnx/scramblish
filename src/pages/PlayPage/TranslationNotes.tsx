@@ -15,10 +15,10 @@ export default function TranslationNotes({ setSelectedWords, wordHighlight }: Pr
 
     return (
         <aside>
-            <header id="translation-notes-header">
-                <h3>Translation Notes</h3>
-            </header>
             <div id="translation-notes-scroll-container">
+                <header id="translation-notes-header">
+                    <h3>Translation Notes</h3>
+                </header>
                 <table>
                     <thead>
                         <tr>

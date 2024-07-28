@@ -1,11 +1,15 @@
-#main-aside-wrapper {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
+#App {
+    display: grid;
+    grid-template-columns:
+        1fr auto;
 }
 
-main {
-    width: 100%;
+#main-wrapper {
+    grid-column: 1 / 2;
+}
+
+aside {
+    grid-column: 2 / 3;
 }
 
 #puzzle-info {

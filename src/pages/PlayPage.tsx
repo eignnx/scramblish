@@ -176,14 +176,14 @@ export default function PlayPage({ puzzleParams }: Props) {
     }
 
     return (
-        <div id="App">
-            <nav>
-                <NavLink to="/">Scramblish</NavLink>
-            </nav>
-            <WordCountContext.Provider value={wordCounts}>
-                <SelectedWordsContext.Provider value={selectedWords}>
-                    <OrthographyContext.Provider value={ortho}>
-                        <div id="main-aside-wrapper">
+        <WordCountContext.Provider value={wordCounts}>
+            <SelectedWordsContext.Provider value={selectedWords}>
+                <OrthographyContext.Provider value={ortho}>
+                    <div id="App">
+                        <div id="main-wrapper">
+                            <nav>
+                                <NavLink to="/">Scramblish</NavLink>
+                            </nav>
                             <main>
                                 <h1>Play</h1>
                                 <header id="puzzle-info">
@@ -232,15 +232,15 @@ export default function PlayPage({ puzzleParams }: Props) {
                                     </div>
                                 </section>
                             </main>
-                            <TranslationNotes
-                                setSelectedWords={setSelectedWords}
-                                wordHighlight={wordHighlight}
-                            />
+                            <footer></footer>
                         </div>
-                    </OrthographyContext.Provider>
-                </SelectedWordsContext.Provider>
-            </WordCountContext.Provider>
-            <footer></footer>
-        </div>
+                        <TranslationNotes
+                            setSelectedWords={setSelectedWords}
+                            wordHighlight={wordHighlight}
+                        />
+                    </div>
+                </OrthographyContext.Provider>
+            </SelectedWordsContext.Provider>
+        </WordCountContext.Provider>
     );
 };
