@@ -16,6 +16,13 @@ export interface Question {
     countWords(wordCounts: WordCounts): void;
 }
 
+type WordsOrBlanksGenerator = (
+    lang: Lang,
+    sentence: Syntax,
+    onBlankSubmit: (guess: string) => void,
+    correct: boolean | undefined,
+) => WordOrBlank[];
+
 abstract class FillInBlank implements Question {
     wordBlankIndex: number = 0;
     answer: string = '!!!!';
@@ -35,10 +42,15 @@ abstract class FillInBlank implements Question {
         return this.blankLang === 'english' ? this.english : this.scramblish;
     }
 
-    wordsOrBlanks(lang: Lang, sentence: Syntax): WordOrBlank[] {
+    wordsOrBlanks(
+        lang: Lang,
+        sentence: Syntax,
+        onBlankSubmit: (guess: string) => void,
+        correct: boolean | undefined,
+    ): WordOrBlank[] {
         return sentence.render().split(" ").map((word, i) =>
             i === this.wordBlankIndex && lang === this.blankLang
-                ? { type: 'blank', onSubmit: (word) => { } }
+                ? { type: 'blank', onSubmit: onBlankSubmit, correct }
                 : { type: 'word', word }
         );
     }
@@ -58,22 +70,17 @@ abstract class FillInBlank implements Question {
     }
 
     render({ wordHighlight }: QuestionRenderProps, key: number): JSX.Element {
-        return (
-            <div key={`FillInBlank-div-${key}`}>
-                <Sentence
-                    key={`FillInBlank-scramblish-${key}`}
-                    lang='scramblish'
-                    words={this.wordsOrBlanks('scramblish', this.scramblish)}
-                    wordHighlight={wordHighlight}
-                />
-                <Sentence
-                    key={`FillInBlank-english-${key}`}
-                    lang='english'
-                    words={this.wordsOrBlanks('english', this.english)}
-                    wordHighlight={wordHighlight}
-                />
-            </div>
-        );
+        const wordsOrBlanks: WordsOrBlanksGenerator = (lang, sentence, onBlankSubmit, correct) => {
+            return this.wordsOrBlanks(lang, sentence, onBlankSubmit, correct);
+        };
+
+        return <FillInBlankSection
+            wordsOrBlanks={wordsOrBlanks}
+            wordHighlight={wordHighlight}
+            scramblish={this.scramblish}
+            english={this.english}
+            getAnswer={() => this.getAnswer()}
+        />;
     }
 }
 
@@ -84,6 +91,37 @@ export class FillInEnglishBlank extends FillInBlank {
 
 export class FillInScramblishBlank extends FillInBlank {
     blankLang: Lang = 'scramblish';
+}
+
+function FillInBlankSection({ wordsOrBlanks, wordHighlight, getAnswer, scramblish, english }: {
+    wordsOrBlanks: WordsOrBlanksGenerator;
+    wordHighlight: WordHighlight;
+    getAnswer: () => string;
+    scramblish: Syntax;
+    english: Syntax;
+}) {
+    const [isCorrect, setIsCorrect] = React.useState<boolean | undefined>(undefined);
+
+    const onBlankSubmit = (guess: string) => {
+        if (guess.trim() === getAnswer()) {
+            setIsCorrect(true);
+        } else {
+            setIsCorrect(false);
+        }
+    };
+
+    return <div>
+        <Sentence
+            lang='scramblish'
+            words={wordsOrBlanks('scramblish', scramblish, onBlankSubmit, isCorrect)}
+            wordHighlight={wordHighlight}
+        />
+        <Sentence
+            lang='english'
+            words={wordsOrBlanks('english', english, onBlankSubmit, isCorrect)}
+            wordHighlight={wordHighlight}
+        />
+    </div>;
 }
 
 abstract class TranslationQuestion implements Question {

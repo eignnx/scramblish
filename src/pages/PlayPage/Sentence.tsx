@@ -10,6 +10,7 @@ export type WordOrBlank = {
 } | {
     type: 'blank';
     onSubmit: (word: string) => void;
+    correct: boolean | undefined;
 };
 
 type SentenceProps = {
