@@ -6,11 +6,18 @@ export class Grammar {
         public rules: Map<string, [Weight, Sequence][]> = new Map()
     ) { }
 
-    addRule(weight: number, name: string, rule: Form[]): Grammar {
+    addRule(name: string, rule: Form[], weight: number = 1): Grammar {
         if (!this.rules.has(name)) {
             this.rules.set(name, []);
         }
         this.rules.get(name)!.push([weight, new Sequence(rule)]);
+        return this;
+    }
+
+    addRuleChoice(name: string, weightedRules: [number, Form[]][]): Grammar {
+        for (const [weight, rule] of weightedRules) {
+            this.addRule(name, rule, weight);
+        }
         return this;
     }
 
