@@ -22,25 +22,19 @@ function App() {
 
 
   return (
-    <div id="App">
-      <Router>
-        <nav>
-          <NavLink to="/">Scramblish</NavLink>
-        </nav>
-        <Routes>
-          <Route path="/" element={
-            <MenuPage
-              puzzleParams={puzzleParams}
-              setPuzzleParams={setPuzzleParams}
-            />
-          } />
-          <Route path="/play" element={
-            <PlayPage puzzleParams={puzzleParams} />
-          } />
-        </Routes>
-      </Router>
-      <footer></footer>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={
+          <MenuPage
+            puzzleParams={puzzleParams}
+            setPuzzleParams={setPuzzleParams}
+          />
+        } />
+        <Route path="/play" element={
+          <PlayPage puzzleParams={puzzleParams} />
+        } />
+      </Routes>
+    </Router >
   );
 }
 

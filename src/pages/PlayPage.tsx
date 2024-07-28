@@ -8,6 +8,7 @@ import { Syntax } from '../lib/syntax-tree';
 import { orthographies, Orthography } from '../lib/orthography';
 import { Random } from '../lib/Random';
 import TranslationNotes from './PlayPage/TranslationNotes';
+import { NavLink } from 'react-router-dom';
 
 export type WordHighlight = {
     setHighlight: (lang: Lang, word: string) => void;
@@ -175,65 +176,71 @@ export default function PlayPage({ puzzleParams }: Props) {
     }
 
     return (
-        <WordCountContext.Provider value={wordCounts}>
-            <SelectedWordsContext.Provider value={selectedWords}>
-                <OrthographyContext.Provider value={ortho}>
-                    <div id="main-aside-wrapper">
-                        <main>
-                            <h1>Play</h1>
-                            <header id="puzzle-info">
-                                Script style &mdash; <span title={ortho.note}>{ortho.name}</span>
-                            </header>
-                            <section id="play-page-controls">
-                                <button onClick={regeneratePuzzle}>⟳ Regenerate Puzzle</button>
-                            </section>
-                            <section id="section-examples">
-                                {examples.map(({ english, scramblish }, i) => (
-                                    <div className='example-wrapper' key={`examples-div-${i}`}>
-                                        <h2>Example {i + 1}</h2>
-                                        <div>
-                                            <span className='example scramblish'>
-                                                <Sentence
-                                                    key={`Sentence-scramblish-${i}`}
-                                                    lang='scramblish'
-                                                    words={intoWordsOrBlanks(scramblish)}
-                                                    wordHighlight={wordHighlight}
-                                                />
-                                            </span>
-                                            <span className='example english'>
-                                                <Sentence
-                                                    key={`Sentence-english-${i}`}
-                                                    lang='english'
-                                                    words={intoWordsOrBlanks(english)}
-                                                    wordHighlight={wordHighlight}
-                                                />
-                                            </span>
+        <div id="App">
+            <nav>
+                <NavLink to="/">Scramblish</NavLink>
+            </nav>
+            <WordCountContext.Provider value={wordCounts}>
+                <SelectedWordsContext.Provider value={selectedWords}>
+                    <OrthographyContext.Provider value={ortho}>
+                        <div id="main-aside-wrapper">
+                            <main>
+                                <h1>Play</h1>
+                                <header id="puzzle-info">
+                                    Script style &mdash; <span title={ortho.note}>{ortho.name}</span>
+                                </header>
+                                <section id="play-page-controls">
+                                    <button onClick={regeneratePuzzle}>⟳ Regenerate Puzzle</button>
+                                </section>
+                                <section id="section-examples">
+                                    {examples.map(({ english, scramblish }, i) => (
+                                        <div className='example-wrapper' key={`examples-div-${i}`}>
+                                            <h2>Example {i + 1}</h2>
+                                            <div>
+                                                <span className='example scramblish'>
+                                                    <Sentence
+                                                        key={`Sentence-scramblish-${i}`}
+                                                        lang='scramblish'
+                                                        words={intoWordsOrBlanks(scramblish)}
+                                                        wordHighlight={wordHighlight}
+                                                    />
+                                                </span>
+                                                <span className='example english'>
+                                                    <Sentence
+                                                        key={`Sentence-english-${i}`}
+                                                        lang='english'
+                                                        words={intoWordsOrBlanks(english)}
+                                                        wordHighlight={wordHighlight}
+                                                    />
+                                                </span>
+                                            </div>
                                         </div>
+                                    ))}
+                                    <div id="add-example-btn-wrapper">
+                                        <button onClick={addAnotherExample}>+ Additional Example</button>
                                     </div>
-                                ))}
-                                <div id="add-example-btn-wrapper">
-                                    <button onClick={addAnotherExample}>+ Additional Example</button>
-                                </div>
-                            </section>
-                            <section id="section-questions">
-                                {questions.map((question, i) => (
-                                    <div className="example-wrapper" key={`questions-div-${i}`}>
-                                        <h2>Question {i + 1}</h2>
-                                        {question.render({ wordHighlight }, i)}
+                                </section>
+                                <section id="section-questions">
+                                    {questions.map((question, i) => (
+                                        <div className="example-wrapper" key={`questions-div-${i}`}>
+                                            <h2>Question {i + 1}</h2>
+                                            {question.render({ wordHighlight }, i)}
+                                        </div>
+                                    ))}
+                                    <div id="add-question-btn-wrapper">
+                                        <button onClick={addAnotherQuestion}>+ Additional Question</button>
                                     </div>
-                                ))}
-                                <div id="add-question-btn-wrapper">
-                                    <button onClick={addAnotherQuestion}>+ Additional Question</button>
-                                </div>
-                            </section>
-                        </main>
-                        <TranslationNotes
-                            setSelectedWords={setSelectedWords}
-                            wordHighlight={wordHighlight}
-                        />
-                    </div>
-                </OrthographyContext.Provider>
-            </SelectedWordsContext.Provider>
-        </WordCountContext.Provider>
+                                </section>
+                            </main>
+                            <TranslationNotes
+                                setSelectedWords={setSelectedWords}
+                                wordHighlight={wordHighlight}
+                            />
+                        </div>
+                    </OrthographyContext.Provider>
+                </SelectedWordsContext.Provider>
+            </WordCountContext.Provider>
+            <footer></footer>
+        </div>
     );
 };
