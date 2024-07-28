@@ -21,22 +21,26 @@ export abstract class ConsonantVowelOrthography extends Orthography {
         const r = Math.random();
         const length = 1 + Math.floor(r * r * this.maxSegments);
 
+        function R(): number {
+            return Math.random();
+        }
+
         const letters: string[] = [];
 
         const addC = () => letters.push(Random.choice(this.consonants));
         const addCFollow = () => letters.push(Random.choice(this.followingConsonants));
         const addV = () => letters.push(Random.choice(this.vowels));
 
-        while (letters.length < length) {
-            if (Math.random() < 0.05) addV();
-            if (Math.random() < 1.00) addC();
-            if (Math.random() < 0.20) addCFollow();
-            if (Math.random() < 0.05) addCFollow();
-            if (Math.random() < 1.00) addV();
-            if (Math.random() < 0.20) addV();
-            if (Math.random() < 0.10) addV();
-        }
-        if (Math.random() < 0.333) addC();
+        do {
+            if (R() < 0.05) addV();
+            if (R() < 1.00) addC();
+            if (R() < 0.20) addCFollow();
+            if (R() < 0.05) addCFollow();
+            if (R() < 1.00) addV();
+            if (R() < 0.20) addV();
+            if (R() < 0.10) addV();
+        } while (letters.length < length);
+        if (R() < 0.333) addC();
 
         return letters.join("");
     }
